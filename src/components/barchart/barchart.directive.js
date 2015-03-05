@@ -23,7 +23,7 @@ angular.module('departementales2015')
                 };
                 var padding = 10;
 
-                var svg, width, height, x, y, xAxis, yAxis, svgYAxis;
+                var svg, width, height, x, y, xAxis, yAxis, svgYAxis, tt;
 
                 width = $($element).width() - (margin.left + margin.right);
                 height = $($element).height() - (margin.top + margin.bottom);
@@ -34,6 +34,15 @@ angular.module('departementales2015')
                         .attr('width', width + (margin.left + margin.right))
                         .attr('height', height + (margin.top + margin.bottom))
                         .append("g").attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+
+
+                // Bootstrap tooltip
+                tt = d3.select($element[0]).append('div').classed({
+                    "chart__tooltip" : true,
+                    "tooltip" : true
+                });
+                tt.append("div").attr("class", "tooltip-arrow");
+                tt.append("div").attr("class", "tooltip-inner").text("test");
 
 
                 // Domains
@@ -52,7 +61,7 @@ angular.module('departementales2015')
                    .attr("transform", "translate(0, " + height + ")")
                    .call(xAxis);
                 svgYAxis = svg.append("g").attr("class", "y axis").call(yAxis);
-                if ($scope.config.yLabel) {
+                if ($scope.config.yLabel != null) {
                     svgYAxis.append("text")
                             .attr("transform", "rotate(-90)")
                             .attr("y", 6).attr("dy", ".71em")
@@ -67,7 +76,31 @@ angular.module('departementales2015')
                    .attr("y", function(d) { return y(d.value); })
                    .attr("height", function(d) { return height - y(d.value) - 1; })
                    .attr("width", x.rangeBand())
-                   .attr("class", function(d) { return "bar " + d.color; });
+                   .attr("class", function(d) { return "bar " + d.color; })
+                   .on("mouseenter", function(d, i) {
+                        var d3This = d3.select(this);
+                        if (i === 0) {
+                            tt.classed({ left : false , right : true });
+                            tt.style("left", (margin.left + parseFloat(d3This.attr("x")) + parseFloat(d3This.attr("width"))) + "px")
+                        } else {
+                            tt.classed({ left : true , right : false });
+                            tt.style("left", (margin.left + parseFloat(d3This.attr("x")) - ($(tt[0]).width() + 10)) + "px")
+                        }
+
+                        tt.style({
+                            top: (margin.top + parseFloat(d3This.attr('y')) - ($(tt[0]).height() / 2)) + "px",
+                            opacity : 1
+                        });
+
+                        if (d.tooltip != null) {
+                            tt.select(".tooltip-inner").text(d.tooltip);
+                        } else {
+                            tt.select(".tooltip-inner").text(d.value + "%");
+                        }
+                   })
+                   .on("mouseout", function() {
+                        tt.style("opacity", 0);
+                   });
             }
         };
     });
