@@ -1,21 +1,20 @@
 <nav class="navbar navbar-static-top navbar-inverse" ng-controller="NavbarCtrl">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="https://github.com/Swiip/generator-gulp-angular">
-        <span class="glyphicon glyphicon-home"></span> Gulp Angular
-      </a>
+    <div class="col-xs-4">
+      <p>
+        Départementales 2015
+        <br />
+        22 & 29 mars 2015
+      </p>
     </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li class="active"><a ng-href="#">Home</a></li>
-        <li><a ng-href="#">About</a></li>
-        <li><a ng-href="#">Contact</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li>Current date: {{ date | date:'yyyy-MM-dd' }}</li>
-      </ul>
+    <div class="col-xs-2">
+      <p>Les résultats</p>
+    </div>
+    <div class="col-xs-3">
+      <button class="btn">1er tour</button>
+    </div>
+    <div class="col-xs-3">
+      <button class="btn">2nd tour</button>
     </div>
   </div>
 </nav>
