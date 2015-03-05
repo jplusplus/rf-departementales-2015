@@ -24,7 +24,7 @@ angular.module('departementales2015')
                 var padding = 10;
 
                 var ns = $scope.config.ns || "chart";
-                var linkedChartNs = $scope.config.linkedChartNs || "chart";
+                var linkedChartNs = $scope.config.linkedChartNs;
 
                 var svg, width, height, x, y, xAxis, yAxis, svgYAxis, tt;
 
@@ -115,12 +115,20 @@ angular.module('departementales2015')
                    .attr("width", x.rangeBand())
                    .attr("class", function(d, i) { return "bar bar-" + String(i) + " " + d.color; })
                    .on("mouseenter", function(d, i) {
+                        // Open local tt
                         openTt(d3.select(this), d, i);
-                        $rootScope.$broadcast(linkedChartNs + ":openTt", i);
+                        // Send open command to other charts
+                        if (linkedChartNs != null) {
+                            $rootScope.$broadcast(linkedChartNs + ":openTt", i);
+                        }
                    })
                    .on("mouseout", function() {
+                        // Close local tt
                         closeTt();
-                        $rootScope.$broadcast(linkedChartNs + ":closeTt");
+                        // Send close command to other charts
+                        if (linkedChartNs != null) {
+                            $rootScope.$broadcast(linkedChartNs + ":closeTt");
+                        }
                    });
 
 
