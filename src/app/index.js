@@ -11,7 +11,10 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
       .state('home.france', {
         url: 'france/',
         templateUrl: 'app/main/france/france.html',
-        controller: 'FranceCtrl'
+        controller: 'FranceCtrl',
+        resolve: {
+          chartData : FranceCtrl.resolve.chartData
+        }
       });
 
     $urlRouterProvider.otherwise('/france/');
