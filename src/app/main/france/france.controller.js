@@ -26,8 +26,7 @@ angular.module('departementales2015')
 
         $scope.config1 = {
             yLabel : "% de voix",
-            ns : "chart1",
-            linkedChartNs : "chart2"
+            ns : "chart1"
         };
 
         $scope.config2 = {
