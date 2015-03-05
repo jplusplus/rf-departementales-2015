@@ -29,13 +29,6 @@ angular.module('departementales2015')
                 height = $($element).height() - (margin.top + margin.bottom);
 
 
-                // Bootstrap svg
-                svg = d3.select($element[0]).append('svg')
-                        .attr('width', width + (margin.left + margin.right))
-                        .attr('height', height + (margin.top + margin.bottom))
-                        .append("g").attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
-
-
                 // Bootstrap tooltip
                 tt = d3.select($element[0]).append('div').classed({
                     "chart__tooltip" : true,
@@ -43,6 +36,39 @@ angular.module('departementales2015')
                 });
                 tt.append("div").attr("class", "tooltip-arrow");
                 tt.append("div").attr("class", "tooltip-inner").text("test");
+
+
+                var openTt = function(d3This, d, i) {
+                    if (i === 0) {
+                        tt.classed({ left : false , right : true });
+                        tt.style("left", (margin.left + parseFloat(d3This.attr("x")) + parseFloat(d3This.attr("width"))) + "px")
+                    } else {
+                        tt.classed({ left : true , right : false });
+                        tt.style("left", (margin.left + parseFloat(d3This.attr("x")) - ($(tt[0]).width() + 10)) + "px")
+                    }
+
+                    tt.style({
+                        top: (margin.top + parseFloat(d3This.attr('y')) - ($(tt[0]).height() / 2)) + "px",
+                        opacity : 1
+                    });
+
+                    if (d.tooltip != null) {
+                        tt.select(".tooltip-inner").text(d.tooltip);
+                    } else {
+                        tt.select(".tooltip-inner").text(d.value + "%");
+                    }
+                };
+
+                var closeTt = function() {
+                    tt.style("opacity", 0);
+                };
+
+
+                // Bootstrap svg
+                svg = d3.select($element[0]).append('svg')
+                        .attr('width', width + (margin.left + margin.right))
+                        .attr('height', height + (margin.top + margin.bottom))
+                        .append("g").attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
 
                 // Domains
@@ -86,28 +112,10 @@ angular.module('departementales2015')
                    .attr("width", x.rangeBand())
                    .attr("class", function(d) { return "bar " + d.color; })
                    .on("mouseenter", function(d, i) {
-                        var d3This = d3.select(this);
-                        if (i === 0) {
-                            tt.classed({ left : false , right : true });
-                            tt.style("left", (margin.left + parseFloat(d3This.attr("x")) + parseFloat(d3This.attr("width"))) + "px")
-                        } else {
-                            tt.classed({ left : true , right : false });
-                            tt.style("left", (margin.left + parseFloat(d3This.attr("x")) - ($(tt[0]).width() + 10)) + "px")
-                        }
-
-                        tt.style({
-                            top: (margin.top + parseFloat(d3This.attr('y')) - ($(tt[0]).height() / 2)) + "px",
-                            opacity : 1
-                        });
-
-                        if (d.tooltip != null) {
-                            tt.select(".tooltip-inner").text(d.tooltip);
-                        } else {
-                            tt.select(".tooltip-inner").text(d.value + "%");
-                        }
+                        openTt(d3.select(this), d, i);
                    })
                    .on("mouseout", function() {
-                        tt.style("opacity", 0);
+                        closeTt();
                    });
             }
         };
