@@ -70,6 +70,14 @@ angular.module('departementales2015')
                 }
 
 
+                // Rulers
+                var rulers = svg.append("g").attr("class", "rulers");
+                for (var i = 10; i <= getUpperLimit($scope.data); i += 10) {
+                    rulers.append("line").attr("x1", 1).attr("y1", y(i))
+                                         .attr("x2", width).attr("y2", y(i));
+                }
+
+
                 // Bars
                 svg.selectAll(".bar").data($scope.data).enter().append("rect")
                    .attr("x", function(d) { return x(d.label); })
