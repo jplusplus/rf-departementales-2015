@@ -24,7 +24,15 @@ angular.module('departementales2015')
             value : 26
         }];
 
-        $scope.config = {
-            yLabel : "% de voix"
+        $scope.config1 = {
+            yLabel : "% de voix",
+            ns : "chart1",
+            linkedChartNs : "chart2"
+        };
+
+        $scope.config2 = {
+            yLabel : "% de voix",
+            ns : "chart2",
+            linkedChartNs : "chart1"
         };
     });

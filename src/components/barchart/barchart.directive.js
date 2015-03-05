@@ -7,7 +7,7 @@ var getUpperLimit = function(data) {
 };
 
 angular.module('departementales2015')
-    .directive('barchart', function () {
+    .directive('barchart', ['$rootScope', function ($rootScope) {
         return {
             scope : {
                 config : '=config',
@@ -22,6 +22,9 @@ angular.module('departementales2015')
                     left : 30
                 };
                 var padding = 10;
+
+                var ns = $scope.config.ns || "chart";
+                var linkedChartNs = $scope.config.linkedChartNs || "chart";
 
                 var svg, width, height, x, y, xAxis, yAxis, svgYAxis, tt;
 
@@ -110,13 +113,25 @@ angular.module('departementales2015')
                    .attr("y", function(d) { return y(d.value); })
                    .attr("height", function(d) { return height - y(d.value) - 1; })
                    .attr("width", x.rangeBand())
-                   .attr("class", function(d) { return "bar " + d.color; })
+                   .attr("class", function(d, i) { return "bar bar-" + String(i) + " " + d.color; })
                    .on("mouseenter", function(d, i) {
                         openTt(d3.select(this), d, i);
+                        $rootScope.$broadcast(linkedChartNs + ":openTt", i);
                    })
                    .on("mouseout", function() {
                         closeTt();
+                        $rootScope.$broadcast(linkedChartNs + ":closeTt");
                    });
+
+
+                // Listen on events in our ns
+                $rootScope.$on(ns + ":openTt", function(event, i) {
+                    openTt(d3.select(".bar-" + String(i)), $scope.data[i], i);
+                });
+
+                $rootScope.$on(ns + ":closeTt", function() {
+                    closeTt();
+                })
             }
         };
-    });
+    }]);
