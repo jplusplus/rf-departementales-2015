@@ -23,22 +23,26 @@ angular.module('departementales2015')
                 };
                 var padding = 10;
 
-                var svg, width, height, x, y, xAxis, yAxis;
+                var svg, width, height, x, y, xAxis, yAxis, svgYAxis;
 
                 width = $($element).width() - (margin.left + margin.right);
                 height = $($element).height() - (margin.top + margin.bottom);
 
+
+                // Bootstrap svg
                 svg = d3.select($element[0]).append('svg')
                         .attr('width', width + (margin.left + margin.right))
                         .attr('height', height + (margin.top + margin.bottom))
                         .append("g").attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
+
                 // Domains
-                x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
+                x = d3.scale.ordinal().rangeBands([0, width], .2);
                 x.domain($scope.data.map(function(d) { return d.label; }))
 
                 y = d3.scale.linear().range([height, 0]);
                 y.domain([0, getUpperLimit($scope.data)]);
+
 
                 // Axis
                 xAxis = d3.svg.axis().scale(x).orient("bottom");
@@ -47,21 +51,23 @@ angular.module('departementales2015')
                 svg.append("g").attr("class", "x axis")
                    .attr("transform", "translate(0, " + height + ")")
                    .call(xAxis);
-                svg.append("g").attr("class", "y axis").call(yAxis);
+                svgYAxis = svg.append("g").attr("class", "y axis").call(yAxis);
+                if ($scope.config.yLabel) {
+                    svgYAxis.append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 6).attr("dy", ".71em")
+                            .style("text-anchor", "end")
+                            .text($scope.config.yLabel);
+                }
 
 
                 // Bars
-                var barWidth = width / $scope.data.length - (padding * $scope.data.length);
-
-                var bar = svg.selectAll(".bar").data($scope.data).enter().append("g")
-                             .attr("transform", function(d, i) {
-                                return "translate(" + (padding + (i * barWidth) + (padding * i)) + ", 0)";
-                             });
-                bar.append("rect")
+                svg.selectAll(".bar").data($scope.data).enter().append("rect")
+                   .attr("x", function(d) { return x(d.label); })
                    .attr("y", function(d) { return y(d.value); })
                    .attr("height", function(d) { return height - y(d.value) - 1; })
-                   .attr("width", barWidth - 1)
-                   .attr("class", function(d) { return d.color; });
+                   .attr("width", x.rangeBand())
+                   .attr("class", function(d) { return "bar " + d.color; });
             }
         };
     });
