@@ -7,12 +7,12 @@ var FranceCtrl = function($scope, chartData) {
 
     var firstSeven = _.slice(_.cloneDeep(chartData), 0, 7);
     var other = _.map(_.sortBy(_.slice(chartData, firstSeven.length), 'value'), function(v) {
+        v.tooltip = v.label + " : " + String(v.value) + "%";
         v.label = "Autres";
         return v;
     });
     var otherSummedValue = _.reduce(other, function(a, b) { return a + b.value; }, 0);
     other = _.map(other, function(v, i) {
-        v.tooltip = String(v.value) + "%";
         var tmp = v.value;
         v.value = otherSummedValue;
         otherSummedValue -= tmp;

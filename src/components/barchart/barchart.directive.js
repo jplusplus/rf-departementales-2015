@@ -18,8 +18,8 @@ angular.module('departementales2015')
                 var margin = {
                     top : 40,
                     right : 30,
-                    bottom : 40,
-                    left : 30
+                    bottom : 60,
+                    left : 50
                 };
                 var padding = 10;
 
@@ -42,13 +42,13 @@ angular.module('departementales2015')
 
 
                 var openTt = function(d3This, d, i) {
-                    if (i === 0) {
+                    // if (i === 0) {
                         tt.classed({ left : false , right : true });
                         tt.style("left", (margin.left + parseFloat(d3This.attr("x")) + parseFloat(d3This.attr("width"))) + "px")
-                    } else {
-                        tt.classed({ left : true , right : false });
-                        tt.style("left", (margin.left + parseFloat(d3This.attr("x")) - ($(tt[0]).width() + 10)) + "px")
-                    }
+                    // } else {
+                    //     tt.classed({ left : true , right : false });
+                    //     tt.style("left", (margin.left + parseFloat(d3This.attr("x")) - $(tt[0]).width()) + "px")
+                    // }
 
                     tt.style({
                         top: (margin.top + parseFloat(d3This.attr('y')) - ($(tt[0]).height() / 2)) + "px",
@@ -58,7 +58,7 @@ angular.module('departementales2015')
                     if (d.tooltip != null) {
                         tt.select(".tooltip-inner").text(d.tooltip);
                     } else {
-                        tt.select(".tooltip-inner").text(d.value + "%");
+                        tt.select(".tooltip-inner").text(d.label + " : " + d.value + "%");
                     }
                 };
 
