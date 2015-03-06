@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap'])
+angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'leaflet-directive'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
@@ -13,7 +13,8 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
         templateUrl: 'app/main/france/france.html',
         controller: 'FranceCtrl',
         resolve: {
-          chartData : FranceCtrl.resolve.chartData
+          chartData : FranceCtrl.resolve.chartData,
+          geojson : FranceCtrl.resolve.geojson
         }
       });
 

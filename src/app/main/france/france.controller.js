@@ -1,6 +1,37 @@
 'use strict';
 
-var FranceCtrl = function($scope, chartData) {
+var FranceCtrl = function($scope, chartData, geojson) {
+    // Map
+    $scope.map = {
+        center : {
+            lat: 46,
+            lng: 3.5,
+            zoom: 5.2
+        },
+        geojson : {
+            data : geojson,
+            style : {
+                weight: 1,
+                color: "#000",
+                fillColor: "green"
+            },
+            onEachFeature: function(feature, layer) {
+                layer.setStyle({
+                    fillColor : "yellow"
+                })
+            }
+        },
+        defaults : {
+            zoomControl : false,
+            keyboard : false,
+            dragging : false,
+            attributionControl : false,
+            scrollWheelZoom : false,
+            doubleClickZoom : false
+        }
+    };
+
+    // Chart
     chartData = _.sortBy(_.map(chartData, function(v, k) {
         return { color : k , value : v , label : getLabelFromNuance(k) };
     }), 'value').reverse();
@@ -52,8 +83,13 @@ FranceCtrl.resolve = {
             "BC-FN"  : 2,
             "BC-EXD" : 1.5
         };
-    }
+    },
+    geojson : ['$http', function($http) {
+        return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
+            return data.data;
+        });
+    }]
 };
 
 angular.module('departementales2015')
-    .controller('FranceCtrl', ['$scope', 'chartData', FranceCtrl]);
+    .controller('FranceCtrl', ['$scope', 'chartData', 'geojson', FranceCtrl]);
