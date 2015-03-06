@@ -1,7 +1,7 @@
 'use strict';
 
 var getUpperLimit = function(data) {
-    var max = d3.max(data, function(d) { return d.value; });
+    var max = parseInt(d3.max(data, function(d) { return d.value; }));
     while (max % 10) { ++max; }
     return max;
 };

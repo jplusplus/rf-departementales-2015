@@ -32,8 +32,11 @@ var FranceCtrl = function($scope, chartData, geojson) {
     };
 
     // Chart
+    var lastColumnData = _.omit(chartData, function(v, k) { return k.indexOf("BC") === 0; });
+    chartData = _.pick(chartData, function(v, k) { return k.indexOf("BC") === 0; });
+
     chartData = _.sortBy(_.map(chartData, function(v, k) {
-        return { color : k , value : v , label : getLabelFromNuance(k) };
+        return { color : k , value : v.rapportExprime , label : getLabelFromNuance(k) };
     }), 'value').reverse();
 
     var firstSeven = _.slice(_.cloneDeep(chartData), 0, 7);
@@ -52,6 +55,18 @@ var FranceCtrl = function($scope, chartData, geojson) {
 
     firstSeven = firstSeven.concat(other);
     firstSeven.push({ value : 0 , label : "" });
+    firstSeven.push({
+        label : "ABS",
+        value : lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit + lastColumnData.abstentions.rapportInscrit,
+        tooltip : "Blancs et nuls : " + String(lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) + "%",
+        color : "BLANCSNULS"
+    });
+    firstSeven.push({
+        label : "ABS",
+        value : lastColumnData.abstentions.rapportInscrit,
+        color : "ABS",
+        tooltip : "Abstentions : " + String(lastColumnData.abstentions.rapportInscrit) + "%"
+    });
     $scope.data = firstSeven;
 
     $scope.config1 = {
@@ -61,29 +76,11 @@ var FranceCtrl = function($scope, chartData, geojson) {
 };
 
 FranceCtrl.resolve = {
-    chartData : function() {
-        return {
-            "BC-EXG" : 32,
-            "BC-FG"  : 11,
-            "BC-PG"  : 7,
-            "BC-COM" : 0.6,
-            "BC-SOC" : 24,
-            "BC-UG"  : 2,
-            "BC-RDG" : 2,
-            "BC-DVG" : 1.3,
-            "BC-VEC" : 1.7,
-            "BC-DIV" : 0.9,
-            "BC-MDM" : 0.5,
-            "BC-UC"  : 16,
-            "BC-UDI" : 3.8,
-            "BC-UMP" : 7.8,
-            "BC-UD"  : 4.1,
-            "BC-DLF" : 3,
-            "BC-DVD" : 2.2,
-            "BC-FN"  : 2,
-            "BC-EXD" : 1.5
-        };
-    },
+    chartData : ['$http', function($http) {
+            return $http.get("/assets/json/results/T1/FE.json").then(function(data) {
+                return data.data;
+            });
+        }],
     geojson : ['$http', function($http) {
         return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
