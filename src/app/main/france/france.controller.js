@@ -1,6 +1,6 @@
 'use strict';
 
-var FranceCtrl = function($scope, chartData, geojson) {
+var FranceCtrl = function($scope, chartData, geojson, mapData) {
     // Map
     $scope.map = {
         center : {
@@ -16,9 +16,24 @@ var FranceCtrl = function($scope, chartData, geojson) {
                 fillColor: "green"
             },
             onEachFeature: function(feature, layer) {
+                var color = "#dedede";
+                if (_.has(mapData, feature.properties.code)) {
+                    var data = mapData[feature.properties.code];
+                    if (data != null) {
+                        color = getColorFromNuance(data[0]);
+                        console.debug(feature.properties.nom, data[0]);
+                    } else {
+                        color = "#fff";
+                        console.debug(feature.properties.nom, "No data yet");
+                    }
+                } else {
+                    console.debug(feature.properties.nom, "No data at all");
+                }
+
                 layer.setStyle({
-                    fillColor : "yellow"
-                })
+                    fillColor : color,
+                    fillOpacity : 1
+                });
             }
         },
         defaults : {
@@ -33,12 +48,14 @@ var FranceCtrl = function($scope, chartData, geojson) {
 
     // Chart
     var lastColumnData = _.omit(chartData, function(v, k) { return k.indexOf("BC") === 0; });
-    chartData = _.pick(chartData, function(v, k) { return k.indexOf("BC") === 0; });
 
+    // Extract real data
+    chartData = _.pick(chartData, function(v, k) { return k.indexOf("BC") === 0; });
     chartData = _.sortBy(_.map(chartData, function(v, k) {
         return { color : k , value : v.rapportExprime , label : getLabelFromNuance(k) };
     }), 'value').reverse();
 
+    // Dissociate first 7 from the rest
     var firstSeven = _.slice(_.cloneDeep(chartData), 0, 7);
     var other = _.map(_.sortBy(_.slice(chartData, firstSeven.length), 'value'), function(v) {
         v.tooltip = v.label + " : " + String(v.value) + "%";
@@ -54,7 +71,9 @@ var FranceCtrl = function($scope, chartData, geojson) {
     });
 
     firstSeven = firstSeven.concat(other);
+    // Add a empty column
     firstSeven.push({ value : 0 , label : "" });
+    // Add the Abs + Blancs + Nuls column
     firstSeven.push({
         label : "ABS",
         value : lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit + lastColumnData.abstentions.rapportInscrit,
@@ -85,8 +104,13 @@ FranceCtrl.resolve = {
         return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
         });
+    }],
+    mapData : ['$http', function($http) {
+        return $http.get("/assets/json/results/T1/FEMAP.json").then(function(data) {
+            return data.data;
+        });
     }]
 };
 
 angular.module('departementales2015')
-    .controller('FranceCtrl', ['$scope', 'chartData', 'geojson', FranceCtrl]);
+    .controller('FranceCtrl', ['$scope', 'chartData', 'geojson', 'mapData', FranceCtrl]);
