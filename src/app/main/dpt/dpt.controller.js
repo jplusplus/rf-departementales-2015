@@ -2,14 +2,14 @@
 
 var DptCtrl = function($scope, chartData) {
     // Charts
-    $scope.dataDpt = computeChartData(chartData);
+    $scope.dataDpt = computeChartData(chartData.dpt);
     $scope.configDpt = {
         yLabel : "% de voix",
         ns : "chartDpt",
         linkedChartNs : "chartFE"
     };
 
-    $scope.dataFE = [];
+    $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
     $scope.configFE = {
         yLabel : "% de voix",
         ns : "chartFE",
@@ -18,9 +18,14 @@ var DptCtrl = function($scope, chartData) {
 };
 
 DptCtrl.resolve = {
-    chartData : ['$http', '$stateParams', function($http, $stateParams) {
-            return $http.get("/assets/json/results/T1/0" + $stateParams.dpt + ".json").then(function(data) {
-                return data.data.results;
+    chartData : ['$http', '$stateParams', '$q', function($http, $stateParams, $q) {
+            return $q.all({
+                dpt : $http.get("/assets/json/results/T1/0" + $stateParams.dpt + ".json").then(function(data) {
+                    return data.data.results;
+                }),
+                FE : $http.get("/assets/json/results/T1/FE.json").then(function(data) {
+                    return data.data;
+                })
             });
         }],
 };

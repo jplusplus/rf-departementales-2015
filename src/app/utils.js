@@ -56,7 +56,6 @@ var getColorFromNuance = (function() {
 
 var computeChartData = function(data) {
     var lastColumnData = _.omit(data, function(v, k) { return k.indexOf("BC") === 0; });
-    console.debug(lastColumnData);
 
     // Extract real data
     data = _.pick(data, function(v, k) { return k.indexOf("BC") === 0; });
@@ -97,4 +96,62 @@ var computeChartData = function(data) {
     });
 
     return firstSeven;
-}
+};
+
+var computeChartDataAs = function(data, as) {
+    var ret = [];
+
+    // First seven
+    for (var i = 0; i < 7; ++i) {
+        if (data[as[i].color] != null) {
+            ret.push({
+                color : as[i].color,
+                value : data[as[i].color].rapportExprime,
+                label : as[i].label,
+                tooltip : as[i].tooltip
+            });
+        }
+    }
+    var firstSevenKeys = _.pluck(ret, 'color');
+
+    // Next values
+    var other = _.map(_.omit(_.pick(_.cloneDeep(data), function(v, k) { return k.indexOf("BC") === 0; }), function(v, k) {
+        return _.contains(firstSevenKeys, k);
+    }), function(v, k) {
+        v.value = v.rapportExprime;
+        v.tooltip = getLabelFromNuance(k) + " : " + String(v.value) + "%";
+        v.color = k;
+        v.label = "Autres";
+        return v;
+    });
+    var otherSummedValue = _.reduce(other, function(a, b) { return a + b.value; }, 0);
+    for (var i = 7; as[i].color != null; ++i) {
+        for (var j = 0; j < other.length; ++j) {
+            if (other[j].color === as[i].color) {
+                var tmp = other[j].value;
+                other[j].value = otherSummedValue;
+                otherSummedValue -= tmp;
+                ret.push(other[j]);
+                break;
+            }
+        }
+    }
+
+    // Add a empty column
+    ret.push({ value : 0 , label : "" });
+    // Add the Abs + Blancs + Nuls column
+    ret.push({
+        label : "ABS",
+        value : data.nuls.rapportInscrit + data.blancs.rapportInscrit + data.abstentions.rapportInscrit,
+        tooltip : "Blancs et nuls : " + String(data.nuls.rapportInscrit + data.blancs.rapportInscrit) + "%",
+        color : "BLANCSNULS"
+    });
+    ret.push({
+        label : "ABS",
+        value : data.abstentions.rapportInscrit,
+        color : "ABS",
+        tooltip : "Abstentions : " + String(data.abstentions.rapportInscrit) + "%"
+    });
+
+    return ret;
+};
