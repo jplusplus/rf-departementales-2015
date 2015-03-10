@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('departementales2015')
-    .directive('map', ['$state', function ($state) {
+    .directive('map', ['$state', 'leafletData', function ($state, leafletData) {
         return {
             restrict : 'EA',
             scope : {
@@ -12,12 +12,6 @@ angular.module('departementales2015')
             compile : function() {
                 return {
                     pre : function($scope) {
-                        $scope.click = function(event) {
-                            if ($state.is('home.france')) {
-                                $state.go('home.dpt', { dpt : event.target.feature.properties.code });
-                            }
-                        };
-
                         $scope.center = {
                             lat: 46,
                             lng: 3.5,
@@ -67,6 +61,8 @@ angular.module('departementales2015')
 
                                         // Bind events
                                         layer.on('click', $scope.click);
+                                        layer.on('mouseover', $scope.mouseenter);
+                                        layer.on('mouseout', $scope.mouseout);
                                     } else {
                                         color = "#fff";
                                     }
@@ -80,7 +76,24 @@ angular.module('departementales2015')
                         };
                     },
 
-                    post : function() { }
+                    post : function($scope) {
+                        leafletData.getMap().then(function(map) {
+                            $scope.mouseenter = function(event) {
+                                var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
+                                popup.setContent();
+                                popup.openOn(map);
+                            };
+
+                            $scope.mouseout = function() {
+                            };
+                        });
+
+                        $scope.click = function(event) {
+                            if ($state.is('home.france')) {
+                                $state.go('home.dpt', { dpt : event.target.feature.properties.code });
+                            }
+                        };
+                    }
                 }
             }
         }
