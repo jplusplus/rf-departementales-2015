@@ -17,7 +17,7 @@ angular.module('departementales2015')
                             $scope.center = {
                                 lat: $scope.centerLonLat[0],
                                 lng: $scope.centerLonLat[1],
-                                zoom: 8.6
+                                zoom: $scope.centerLonLat[2] || 8
                             }
                         } else {
                             $scope.center = {
@@ -106,6 +106,16 @@ angular.module('departementales2015')
                                 $state.go('home.dpt', { dpt : event.target.feature.properties.code });
                             }
                         };
+
+                        $scope.$watch("centerLonLat", function(newValue, oldValue) {
+                            if (newValue != null) {
+                                $scope.center = {
+                                    lat: $scope.centerLonLat[0],
+                                    lng: $scope.centerLonLat[1],
+                                    zoom: $scope.centerLonLat[2] || 8
+                                }
+                            }
+                        }, true);
                     }
                 }
             }
