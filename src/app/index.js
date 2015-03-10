@@ -23,7 +23,9 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
         templateUrl: 'app/main/dpt/dpt.html',
         controller: 'DptCtrl',
         resolve: {
-          chartData : DptCtrl.resolve.chartData
+          chartData : DptCtrl.resolve.chartData,
+          geojson : DptCtrl.resolve.geojson,
+          dptGeoJson : DptCtrl.resolve.dptGeoJson
         }
       });
 

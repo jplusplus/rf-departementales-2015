@@ -1,22 +1,31 @@
 'use strict';
 
 angular.module('departementales2015')
-    .directive('map', ['$state', 'leafletData', function ($state, leafletData) {
+    .directive('map', ['$state', '$stateParams', 'leafletData', function ($state, $stateParams, leafletData) {
         return {
             restrict : 'EA',
             scope : {
                 data : '=data',
-                geo : '=geo'
+                geo : '=geo',
+                centerLonLat : "=centerLonLat"
             },
             templateUrl : 'components/map/map.html',
             compile : function() {
                 return {
                     pre : function($scope) {
-                        $scope.center = {
-                            lat: 46,
-                            lng: 3.5,
-                            zoom: 5.2
-                        };
+                        if ($scope.centerLonLat != null) {
+                            $scope.center = {
+                                lat: $scope.centerLonLat[0],
+                                lng: $scope.centerLonLat[1],
+                                zoom: 8.6
+                            }
+                        } else {
+                            $scope.center = {
+                                lat: 46,
+                                lng: 3.5,
+                                zoom: 5.2
+                            };
+                        }
 
                         $scope.defaults = {
                             zoomControl : false,
