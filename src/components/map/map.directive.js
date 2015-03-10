@@ -38,8 +38,8 @@ angular.module('departementales2015')
 
                         $scope.legend = {
                             position : "bottomleft",
-                            colors : ["#fff", "#dedede"],
-                            labels : ["", ""]
+                            colors : [],
+                            labels : []
                         };
 
                         $scope.events = {
@@ -55,33 +55,42 @@ angular.module('departementales2015')
                                 weight: 1,
                                 color: "#000"
                             },
-                            onEachFeature: function(feature, layer) {
-                                var color = "#fff";
-                                if (_.has($scope.data, feature.properties.code)) {
-                                    var data = $scope.data[feature.properties.code];
-                                    if (data != null) {
-                                        color = getColorFromNuance(data[0]);
-                                        if (! _.contains($scope.legend.colors, color)) {
-                                            var legend = _.cloneDeep($scope.legend);
-                                            legend.colors.push(color);
-                                            legend.labels.push(getLabelFromNuance(data[0]));
-                                            $scope.legend = legend;
-                                        }
-
-                                        // Bind events
-                                        layer.on('click', $scope.click);
-                                        layer.on('mouseover', $scope.mouseenter);
-                                        layer.on('mouseout', $scope.mouseout);
-                                    } else {
-                                        color = "#999";
+                            onEachFeature: (function() {
+                                var addToLegend = function(color, label) {
+                                    if (! _.contains($scope.legend.colors, color)) {
+                                        var legend = _.cloneDeep($scope.legend);
+                                        legend.colors.push(color);
+                                        legend.labels.push(label);
+                                        $scope.legend = legend;
                                     }
-                                }
+                                };
 
-                                layer.setStyle({
-                                    fillColor : color,
-                                    fillOpacity : 1
-                                });
-                            }
+                                return function(feature, layer) {
+                                    var color = "#fff";
+                                    if (_.has($scope.data, feature.properties.code)) {
+                                        var data = $scope.data[feature.properties.code];
+                                        if (data != null) {
+                                            color = getColorFromNuance(data[0]);
+                                            addToLegend(color, getLabelFromNuance(data[0]));
+
+                                            // Bind events
+                                            layer.on('click', $scope.click);
+                                            layer.on('mouseover', $scope.mouseenter);
+                                            layer.on('mouseout', $scope.mouseout);
+                                        } else {
+                                            color = "#999";
+                                            addToLegend(color, "");
+                                        }
+                                    } else {
+                                        addToLegend("#fff", "N/A")
+                                    }
+
+                                    layer.setStyle({
+                                        fillColor : color,
+                                        fillOpacity : 1
+                                    });
+                                };
+                            })()
                         };
                     },
 
@@ -113,7 +122,7 @@ angular.module('departementales2015')
                                     lat: $scope.centerLonLat[0],
                                     lng: $scope.centerLonLat[1],
                                     zoom: $scope.centerLonLat[2] || 8
-                                }
+                                };
                             }
                         }, true);
                     }
