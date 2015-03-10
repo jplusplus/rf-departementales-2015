@@ -53,3 +53,48 @@ var getColorFromNuance = (function() {
         return mapping[nuance];
     };
 })();
+
+var computeChartData = function(data) {
+    var lastColumnData = _.omit(data, function(v, k) { return k.indexOf("BC") === 0; });
+    console.debug(lastColumnData);
+
+    // Extract real data
+    data = _.pick(data, function(v, k) { return k.indexOf("BC") === 0; });
+    data = _.sortBy(_.map(data, function(v, k) {
+        return { color : k , value : v.rapportExprime , label : getLabelFromNuance(k) };
+    }), 'value').reverse();
+
+    // Dissociate first 7 from the rest
+    var firstSeven = _.slice(_.cloneDeep(data), 0, 7);
+    var other = _.map(_.sortBy(_.slice(data, firstSeven.length), 'value'), function(v) {
+        v.tooltip = v.label + " : " + String(v.value) + "%";
+        v.label = "Autres";
+        return v;
+    });
+    var otherSummedValue = _.reduce(other, function(a, b) { return a + b.value; }, 0);
+    other = _.map(other, function(v, i) {
+        var tmp = v.value;
+        v.value = otherSummedValue;
+        otherSummedValue -= tmp;
+        return v;
+    });
+
+    firstSeven = firstSeven.concat(other);
+    // Add a empty column
+    firstSeven.push({ value : 0 , label : "" });
+    // Add the Abs + Blancs + Nuls column
+    firstSeven.push({
+        label : "ABS",
+        value : lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit + lastColumnData.abstentions.rapportInscrit,
+        tooltip : "Blancs et nuls : " + String(lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) + "%",
+        color : "BLANCSNULS"
+    });
+    firstSeven.push({
+        label : "ABS",
+        value : lastColumnData.abstentions.rapportInscrit,
+        color : "ABS",
+        tooltip : "Abstentions : " + String(lastColumnData.abstentions.rapportInscrit) + "%"
+    });
+
+    return firstSeven;
+}

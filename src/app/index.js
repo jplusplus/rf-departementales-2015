@@ -17,6 +17,14 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
           geojson : FranceCtrl.resolve.geojson,
           mapData : FranceCtrl.resolve.mapData
         }
+      })
+      .state('home.dpt', {
+        url: 'france/:dpt',
+        templateUrl: 'app/main/dpt/dpt.html',
+        controller: 'DptCtrl',
+        resolve: {
+          chartData : DptCtrl.resolve.chartData
+        }
       });
 
     $urlRouterProvider.otherwise('/france/');
