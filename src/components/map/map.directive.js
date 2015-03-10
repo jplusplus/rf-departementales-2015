@@ -47,7 +47,7 @@ angular.module('departementales2015')
                                 color: "#000"
                             },
                             onEachFeature: function(feature, layer) {
-                                var color = "#dedede";
+                                var color = "#fff";
                                 if (_.has($scope.data, feature.properties.code)) {
                                     var data = $scope.data[feature.properties.code];
                                     if (data != null) {
@@ -64,7 +64,7 @@ angular.module('departementales2015')
                                         layer.on('mouseover', $scope.mouseenter);
                                         layer.on('mouseout', $scope.mouseout);
                                     } else {
-                                        color = "#fff";
+                                        color = "#999";
                                     }
                                 }
 
@@ -79,8 +79,10 @@ angular.module('departementales2015')
                     post : function($scope) {
                         leafletData.getMap().then(function(map) {
                             $scope.mouseenter = function(event) {
+                                var feature = event.target.feature;
+                                var data = $scope.data[feature.properties.code];
                                 var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
-                                popup.setContent();
+                                popup.setContent(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + data[1] + "%");
                                 popup.openOn(map);
                             };
 
