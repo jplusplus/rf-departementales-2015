@@ -82,11 +82,13 @@ angular.module('departementales2015')
                                 var feature = event.target.feature;
                                 var data = $scope.data[feature.properties.code];
                                 var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
+                                popup.options.closeButton = false;
                                 popup.setContent(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + data[1] + "%");
                                 popup.openOn(map);
                             };
 
                             $scope.mouseout = function() {
+                                map.closePopup();
                             };
                         });
 
