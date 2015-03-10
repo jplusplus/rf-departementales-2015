@@ -1,6 +1,12 @@
 'use strict';
 
-var DptCtrl = function($scope, chartData) {
+var DptCtrl = function($scope, $stateParams, chartData) {
+    //
+    $scope.dpt = {
+        code : $stateParams.dpt,
+        name : getDptNameFromDptCode($stateParams.dpt)
+    }
+
     // Charts
     $scope.dataDpt = computeChartData(chartData.dpt);
     $scope.configDpt = {
@@ -31,4 +37,4 @@ DptCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('DptCtrl', ['$scope', 'chartData', DptCtrl]);
+    .controller('DptCtrl', ['$scope', '$stateParams', 'chartData', DptCtrl]);
