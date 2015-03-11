@@ -28,6 +28,16 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
           dptGeoJson : DptCtrl.resolve.dptGeoJson,
           mapData : DptCtrl.resolve.mapData
         }
+      })
+      .state('home.canton', {
+        url: 'france/:dpt/:canton',
+        templateUrl: 'app/main/canton/canton.html',
+        controller: 'CantonCtrl',
+        resolve: {
+          chartData : CantonCtrl.resolve.chartData,
+          geojson : CantonCtrl.resolve.geojson,
+          mapData : CantonCtrl.resolve.mapData
+        }
       });
 
     $urlRouterProvider.otherwise('/france/');

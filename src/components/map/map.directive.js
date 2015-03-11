@@ -16,7 +16,7 @@ angular.module('departementales2015')
                         $scope.getCodeFromData = function(data) {
                             if ($state.is('home.france')) {
                                 return data.code;
-                            } else if ($state.is('home.dpt')) {
+                            } else {
                                 var code = String(data.num_canton);
                                 if (code.length < 2) { code = '0' + code; }
                                 return code;
@@ -123,6 +123,8 @@ angular.module('departementales2015')
                         $scope.click = function(event) {
                             if ($state.is('home.france')) {
                                 $state.go('home.dpt', { dpt : event.target.feature.properties.code });
+                            } else if ($state.is('home.dpt')) {
+                                $state.go('home.canton', { dpt : $stateParams.dpt , canton : event.target.feature.properties.num_canton });
                             }
                         };
 
