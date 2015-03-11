@@ -76,12 +76,21 @@ def getFEResults(t, fName = None):
                 rapportVotant=parseFloat(getattr(tour.Mentions, k).RapportVotant.string)
             )
 
-        for nuance in tour.Resultats.NuancesBin.findAll("NuanceBin"):
-            results[nuance.CodNuaBin.string] = dict(
-                nombre=int(nuance.NbVoix.string),
-                rapportInscrit=parseFloat(nuance.RapportInscrit.string),
-                rapportExprime=parseFloat(nuance.RapportExprime.string)
-            )
+        if tour.Resultats.NuancesBin != None:
+            for nuance in tour.Resultats.NuancesBin.findAll("NuanceBin"):
+                results[nuance.CodNuaBin.string] = dict(
+                    nombre=int(nuance.NbVoix.string),
+                    rapportInscrit=parseFloat(nuance.RapportInscrit.string),
+                    rapportExprime=parseFloat(nuance.RapportExprime.string)
+                )
+        else:
+            for binome in tour.Resultats.Binomes.findAll("Binome"):
+                results[binome.CodNuaBin.string] = dict(
+                    nombre=int(binome.NbVoix.string),
+                    rapportInscrit=parseFloat(binome.RapportInscrit.string),
+                    rapportExprime=parseFloat(binome.RapportExprime.string),
+                    nom=binome.LibBin.string
+                )
 
     except IndexError as e:
         pass
@@ -93,6 +102,23 @@ def getDptResults(t, dptCod3Car, lastUpdateDateTime):
         lastUpdateDateTime=lastUpdateDateTime
     )
 
+def getCanResults(t, dptCod3Car, codCan):
+    return getFEResults(t, "{0}/{0}{1}".format(dptCod3Car, codCan))
+
+def getCanList(t, dptCod3Car):
+    ret = []
+
+    r = requests.get(BASE_URL + 'resultatsT{0}/{1}/T{0}{1}.xml'.format(t, dptCod3Car))
+    soup = BeautifulSoup(r.text, "xml")
+
+    for can in soup.Election.Departement.Cantons.findAll('Canton'):
+        ret.append(can.CodCan.string)
+
+    return ret
+
+def getTop(data):
+    return sorted([(k, v['rapportExprime']) for k, v in data.items() if k[:2] == "BC"], key=lambda x: x[1], reverse=True)[0]
+
 def computeFranceMapData(t, dpts):
     dptsMapData = dict()
 
@@ -102,7 +128,7 @@ def computeFranceMapData(t, dpts):
             with open(jsonFileName, "r") as f:
                 try:
                     dptData = json.loads(f.read())['results']
-                    dptsMapData[dptCodMin] = sorted([(k, v['rapportExprime']) for k, v in dptData.items() if k[:2] == "BC"], key=lambda x: x[1], reverse=True)[0]
+                    dptsMapData[dptCodMin] = getTop(dptData)
                 except ValueError:
                     pass
         else:
@@ -110,25 +136,58 @@ def computeFranceMapData(t, dpts):
 
     return dptsMapData
 
+def computeDptMapData(t, dptCod3Car, canList):
+    mapData = dict()
+
+    for codCan in canList:
+        jsonFileName = os.path.join(OUT_DIR, 'T{0}'.format(t), dptCod3Car, "{0}.json".format(codCan))
+        if (os.path.isfile(jsonFileName)):
+            with open(jsonFileName, 'r') as f:
+                try:
+                    canData = json.loads(f.read())
+                    mapData[codCan] = getTop(canData)
+                except ValueError:
+                    pass
+        else:
+            mapData[codCan] = None
+
+    return mapData
+
 if __name__ == "__main__":
     t = 1
     if len(sys.argv) > 1:
-        t = sys.argv[1]
+        t = int(sys.argv[1])
 
     # Bootstrap output dir
     mkdir(OUT_DIR)
-    mkdir(os.path.join(OUT_DIR, 'T1'))
+    mkdir(os.path.join(OUT_DIR, 'T{0}'.format(t)))
 
     # Retrieve global France results
-    # with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as f:
-    #     f.write(json.dumps(getFEResults(t)))
+    with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as f:
+        f.write(json.dumps(getFEResults(t)))
 
     # Retrieve global Dpt results
     (toUpdate, allDpts) = getDptsToUpdate(t)
     dptsData = dict()
     for (dptCod3Car, lastUpdateDateTime) in toUpdate:
+
         with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "{0}.json".format(dptCod3Car)), "w") as f:
             f.write(json.dumps(getDptResults(t, dptCod3Car, lastUpdateDateTime)))
+
+        # Retrieve Can results
+        outFolder = os.path.join(OUT_DIR, 'T{0}'.format(t), dptCod3Car)
+        mkdir(outFolder)
+
+        canList = getCanList(t, dptCod3Car)
+
+        for codCan in canList:
+            with open(os.path.join(outFolder, "{0}.json".format(codCan)), 'w') as f:
+                f.write(json.dumps(getCanResults(t, dptCod3Car, codCan)))
+
+        # Compute data for Dpt map
+        with open(os.path.join(outFolder, "MAP.json"), "w") as f:
+            f.write(json.dumps(computeDptMapData(t, dptCod3Car, canList)))
+
     # Compute data for France map
     with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "FEMAP.json"), "w") as f:
         f.write(json.dumps(computeFranceMapData(t, allDpts)))
