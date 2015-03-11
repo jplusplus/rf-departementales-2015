@@ -13,6 +13,16 @@ angular.module('departementales2015')
             compile : function() {
                 return {
                     pre : function($scope) {
+                        $scope.getCodeFromData = function(data) {
+                            if ($state.is('home.france')) {
+                                return data.code;
+                            } else if ($state.is('home.dpt')) {
+                                var code = String(data.num_canton);
+                                if (code.length < 2) { code = '0' + code; }
+                                return code;
+                            }
+                        }
+
                         if ($scope.centerLonLat != null) {
                             $scope.center = {
                                 lat: $scope.centerLonLat[0],
@@ -67,8 +77,8 @@ angular.module('departementales2015')
 
                                 return function(feature, layer) {
                                     var color = "#fff";
-                                    if (_.has($scope.data, feature.properties.code)) {
-                                        var data = $scope.data[feature.properties.code];
+                                    if (_.has($scope.data, $scope.getCodeFromData(feature.properties))) {
+                                        var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                         if (data != null) {
                                             color = getColorFromNuance(data[0]);
                                             addToLegend(color, getLabelFromNuance(data[0]));
@@ -98,7 +108,7 @@ angular.module('departementales2015')
                         leafletData.getMap().then(function(map) {
                             $scope.mouseenter = function(event) {
                                 var feature = event.target.feature;
-                                var data = $scope.data[feature.properties.code];
+                                var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                 var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
                                 popup.options.closeButton = false;
                                 popup.setContent(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + data[1] + "%");

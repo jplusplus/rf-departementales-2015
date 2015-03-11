@@ -1,6 +1,6 @@
 'use strict';
 
-var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dptGeoJson) {
+var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dptGeoJson, mapData) {
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -8,6 +8,7 @@ var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dp
     }
 
     // Map
+    $scope.mapData = mapData;
     $scope.geojson = geojson;
     for (var i = 0; i < dptGeoJson.features.length; ++i) {
         var feature = dptGeoJson.features[i];
@@ -61,15 +62,21 @@ DptCtrl.resolve = {
             }
             data.data.features = ret;
             return data.data;
-        })
+        });
     }],
 
     dptGeoJson : ['$http', function($http) {
         return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
-        })
+        });
     }],
+
+    mapData : ['$http', '$stateParams', function($http, $stateParams) {
+        return $http.get("/assets/json/results/T1/0" + $stateParams.dpt + "/MAP.json").then(function(data) {
+            return data.data;
+        });
+    }]
 };
 
 angular.module('departementales2015')
-    .controller('DptCtrl', ['$scope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'dptGeoJson', DptCtrl]);
+    .controller('DptCtrl', ['$scope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'dptGeoJson', 'mapData', DptCtrl]);
