@@ -44,8 +44,10 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
 
 CantonCtrl.resolve = {
     chartData : ['$http', '$stateParams', '$q', function($http, $stateParams, $q) {
+        var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
+        var canton = $stateParams.canton.length > 1 ? $stateParams.canton : '0' + $stateParams.canton;
         return $q.all({
-            canton : $http.get('assets/json/results/T1/0' + $stateParams.dpt + '/' + $stateParams.canton + ".json").then(function(data) {
+            canton : $http.get('assets/json/results/T1/' + dpt + '/' + canton + ".json").then(function(data) {
                 return data.data;
             }),
             FE : $http.get('assets/json/results/T1/FE.json').then(function(data) {
@@ -69,7 +71,8 @@ CantonCtrl.resolve = {
     }],
 
     mapData : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get('assets/json/results/T1/0' + $stateParams.dpt + '/MAP.json').then(function(data) {
+        var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
+        return $http.get('assets/json/results/T1/' + dpt + '/MAP.json').then(function(data) {
             return data.data;
         });
     }]

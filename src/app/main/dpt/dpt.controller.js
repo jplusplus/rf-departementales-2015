@@ -41,8 +41,9 @@ var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dp
 
 DptCtrl.resolve = {
     chartData : ['$http', '$stateParams', '$q', function($http, $stateParams, $q) {
+        var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
         return $q.all({
-            dpt : $http.get("assets/json/results/T1/0" + $stateParams.dpt + ".json").then(function(data) {
+            dpt : $http.get("assets/json/results/T1/" + dpt + ".json").then(function(data) {
                 return data.data.results;
             }),
             FE : $http.get("assets/json/results/T1/FE.json").then(function(data) {
@@ -72,7 +73,8 @@ DptCtrl.resolve = {
     }],
 
     mapData : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get("assets/json/results/T1/0" + $stateParams.dpt + "/MAP.json").then(function(data) {
+        var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
+        return $http.get("assets/json/results/T1/" + dpt + "/MAP.json").then(function(data) {
             return data.data;
         });
     }]
