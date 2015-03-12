@@ -42,17 +42,17 @@ var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dp
 DptCtrl.resolve = {
     chartData : ['$http', '$stateParams', '$q', function($http, $stateParams, $q) {
         return $q.all({
-            dpt : $http.get("/assets/json/results/T1/0" + $stateParams.dpt + ".json").then(function(data) {
+            dpt : $http.get("assets/json/results/T1/0" + $stateParams.dpt + ".json").then(function(data) {
                 return data.data.results;
             }),
-            FE : $http.get("/assets/json/results/T1/FE.json").then(function(data) {
+            FE : $http.get("assets/json/results/T1/FE.json").then(function(data) {
                 return data.data;
             })
         });
     }],
 
     geojson : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get("/assets/json/geo/cantons.geojson").then(function(data) {
+        return $http.get("assets/json/geo/cantons.geojson").then(function(data) {
             var ret = [];
             var code_dep = $stateParams.dpt;
             for (var i = 0; i < data.data.features.length; ++i) {
@@ -66,13 +66,13 @@ DptCtrl.resolve = {
     }],
 
     dptGeoJson : ['$http', function($http) {
-        return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
+        return $http.get("assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
         });
     }],
 
     mapData : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get("/assets/json/results/T1/0" + $stateParams.dpt + "/MAP.json").then(function(data) {
+        return $http.get("assets/json/results/T1/0" + $stateParams.dpt + "/MAP.json").then(function(data) {
             return data.data;
         });
     }]

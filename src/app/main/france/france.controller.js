@@ -16,17 +16,17 @@ var FranceCtrl = function($scope, chartData, geojson, mapData) {
 
 FranceCtrl.resolve = {
     chartData : ['$http', function($http) {
-            return $http.get("/assets/json/results/T1/FE.json").then(function(data) {
+            return $http.get("assets/json/results/T1/FE.json").then(function(data) {
                 return data.data;
             });
         }],
     geojson : ['$http', function($http) {
-        return $http.get("/assets/json/geo/departements.geojson").then(function(data) {
+        return $http.get("assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
         });
     }],
     mapData : ['$http', function($http) {
-        return $http.get("/assets/json/results/T1/FEMAP.json").then(function(data) {
+        return $http.get("assets/json/results/T1/FEMAP.json").then(function(data) {
             return data.data;
         });
     }]
