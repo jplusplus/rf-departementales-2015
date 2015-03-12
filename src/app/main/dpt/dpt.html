@@ -2,10 +2,10 @@
     <li><a ui-sref="home.france">France</a></li>
     <li><a ui-sref="home.dpt({dpt:dpt.code})">{{dpt.name}}</a></li>
 </ol>
-<div class='col-s-12 col-sm-6'>
+<div class='col-xs-6'>
     <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
 </div>
-<div class='col-s-12 col-sm-6'>
+<div class='col-xs-6'>
     <div barchart x-data="dataDpt" x-config="configDpt" class='chart'></div>
     <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
 </div>

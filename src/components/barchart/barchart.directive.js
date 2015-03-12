@@ -17,7 +17,7 @@ angular.module('departementales2015')
             link : function($scope, $element) {
                 var margin = {
                     top : 40,
-                    right : 30,
+                    right : 0,
                     bottom : 60,
                     left : 50
                 };
