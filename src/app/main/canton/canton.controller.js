@@ -34,12 +34,12 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
         linkedChartNs : "chartFE"
     };
 
-    // $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
-    // $scope.configFE = {
-    //     yLabel : "% de voix",
-    //     ns : "chartFE",
-    //     linkedChartNs : "chartDpt"
-    // }
+    $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
+    $scope.configFE = {
+        yLabel : "% de voix",
+        ns : "chartFE",
+        linkedChartNs : "chartDpt"
+    }
 };
 
 CantonCtrl.resolve = {
