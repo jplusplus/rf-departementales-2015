@@ -14,12 +14,17 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
     // Map
     $scope.mapData = mapData;
     $scope.geojson = geojson;
-    var feature = L.polygon(geojson.features[0].geometry.coordinates[0]);
-    var lonLat = feature.getBounds().getCenter();
-    $scope.center = [lonLat.lng, lonLat.lat, ];
-    leafletData.getMap().then(function(map) {
-        $scope.center.push(map.getBoundsZoom(feature.getBounds()));
-    });
+    for (var i = 0; i < geojson.features.length; ++i) {
+        var feature = L.polygon(geojson.features[i].geometry.coordinates[0]);
+        if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
+            var lonLat = feature.getBounds().getCenter();
+            $scope.center = [lonLat.lng, lonLat.lat, ];
+            leafletData.getMap().then(function(map) {
+                $scope.center.push(map.getBoundsZoom(feature.getBounds()));
+            });
+            break;
+        }
+    }
 
     // Charts
     $scope.dataCan = computeChartData(chartData.canton);
@@ -51,13 +56,14 @@ CantonCtrl.resolve = {
 
     geojson : ['$http', '$stateParams', function($http, $stateParams) {
         return $http.get('assets/json/geo/cantons.geojson').then(function(data) {
+            var features = [];
             for (var i = 0; i < data.data.features.length; ++i) {
                 var feature = data.data.features[i];
-                if (feature.properties.code_dep === $stateParams.dpt && feature.properties.num_canton === parseInt($stateParams.canton)) {
-                    data.data.features = [feature];
-                    break;
+                if (feature.properties.code_dep === $stateParams.dpt) {
+                    features.push(feature);
                 }
             }
+            data.data.features = features;
             return data.data;
         });
     }],
