@@ -211,7 +211,8 @@ var computeChartDataAs = function(data, as) {
     var ret = [];
 
     // First seven
-    for (var i = 0; i < 7; ++i) {
+    var i;
+    for (i = 0; i < 7; ++i) {
         if (as[i].color == null) { break; }
         ret.push({
             color : as[i].color,
@@ -219,6 +220,25 @@ var computeChartDataAs = function(data, as) {
             label : as[i].label,
             tooltip : as[i].tooltip
         });
+    }
+
+    // Stacked column
+    var otherSummedValue = 0;
+    var j = i;
+    while (as[i].color != null) {
+        otherSummedValue += data[as[i].color].rapportExprime;
+        ++i;
+    }
+    i = j;
+    while (as[i].color != null) {
+        ret.push({
+            color : as[i].color,
+            value : otherSummedValue,
+            label : as[i].label,
+            tooltip : getLabelFromNuance(as[i].color) + ' : ' + data[as[i].color].rapportExprime + "%"
+        });
+        otherSummedValue -= data[as[i].color].rapportExprime;
+        ++i;
     }
 
     // Add a empty column
