@@ -8,7 +8,7 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
     }
     $scope.canton = {
         code : $stateParams.canton,
-        name : geojson.features[0].properties.nom
+        name : ""
     }
 
     // Map
@@ -22,6 +22,7 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
             leafletData.getMap().then(function(map) {
                 $scope.center.push(map.getBoundsZoom(feature.getBounds()));
             });
+            $scope.canton.name = geojson.features[i].properties.nom;
             break;
         }
     }
