@@ -15,18 +15,20 @@ var FranceCtrl = function($scope, chartData, geojson, mapData) {
 };
 
 FranceCtrl.resolve = {
-    chartData : ['$http', function($http) {
-            return $http.get("assets/json/results/T1/FE.json").then(function(data) {
-                return data.data;
-            });
-        }],
+    chartData : ['$http', '$rootScope', function($http, $rootScope) {
+        var t = $rootScope.getT();
+        return $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
+            return data.data;
+        });
+    }],
     geojson : ['$http', function($http) {
         return $http.get("assets/json/geo/departements.geojson").then(function(data) {
             return data.data;
         });
     }],
-    mapData : ['$http', function($http) {
-        return $http.get("assets/json/results/T1/FEMAP.json").then(function(data) {
+    mapData : ['$http', '$rootScope', function($http, $rootScope) {
+        var t = $rootScope.getT();
+        return $http.get("assets/json/results/T" + t + "/FEMAP.json").then(function(data) {
             return data.data;
         });
     }]

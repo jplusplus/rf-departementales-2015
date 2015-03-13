@@ -40,13 +40,14 @@ var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dp
 };
 
 DptCtrl.resolve = {
-    chartData : ['$http', '$stateParams', '$q', function($http, $stateParams, $q) {
+    chartData : ['$http', '$stateParams', '$q', '$rootScope', function($http, $stateParams, $q, $rootScope) {
+        var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
         return $q.all({
-            dpt : $http.get("assets/json/results/T1/" + dpt + ".json").then(function(data) {
+            dpt : $http.get("assets/json/results/T" + t + "/" + dpt + ".json").then(function(data) {
                 return data.data.results;
             }),
-            FE : $http.get("assets/json/results/T1/FE.json").then(function(data) {
+            FE : $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
                 return data.data;
             })
         });
@@ -72,9 +73,10 @@ DptCtrl.resolve = {
         });
     }],
 
-    mapData : ['$http', '$stateParams', function($http, $stateParams) {
+    mapData : ['$http', '$stateParams', '$rootScope', function($http, $stateParams, $rootScope) {
+        var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
-        return $http.get("assets/json/results/T1/" + dpt + "/MAP.json").then(function(data) {
+        return $http.get("assets/json/results/T" + t + "/" + dpt + "/MAP.json").then(function(data) {
             return data.data;
         });
     }]
