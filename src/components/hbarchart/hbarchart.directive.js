@@ -41,7 +41,6 @@ angular.module('departementales2015')
                 y = d3.scale.ordinal().rangeBands([0, height], .3);
                 var bands = [];
                 for (var i = 0; i < $scope.data.length; ++i) {
-                    console.debug($scope.data[i]);
                     bands.push({ label : "Pre " + $scope.data[i].label });
                     bands.push({ label : $scope.data[i].label });
                 }
