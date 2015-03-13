@@ -165,11 +165,10 @@ var getDptNameFromDptCode = (function() {
 
 var computeChartData = function(data) {
     var lastColumnData = _.omit(data, function(v, k) { return k.indexOf("BC") === 0; });
-
     // Extract real data
     data = _.pick(data, function(v, k) { return k.indexOf("BC") === 0; });
     data = _.sortBy(_.map(data, function(v, k) {
-        return { color : k , value : v.rapportExprime , label : getLabelFromNuance(k) };
+        return { color : k , value : v.rapportExprime , label : getLabelFromNuance(k) , nombre : v.nombre , nom : v.nom };
     }), 'value').reverse();
 
     // Dissociate first 7 from the rest

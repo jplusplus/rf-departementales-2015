@@ -34,6 +34,8 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
         linkedChartNs : "chartFE"
     };
 
+    $scope.dataCanH = _.remove(_.take(_.cloneDeep($scope.dataCan), 5), function(d) { return d.value > 0; });
+
     $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
     $scope.configFE = {
         yLabel : "% de voix",
