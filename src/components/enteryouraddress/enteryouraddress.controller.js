@@ -21,7 +21,6 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
                     var latLngBounds = L.polygon(feature.geometry.coordinates[0]).getBounds();
                     if (latLngBounds.contains(latLng)) {
                         can = feature;
-                        break;
                     }
                 }
 
