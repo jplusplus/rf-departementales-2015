@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 BASE_URL = "http://www.interieur.gouv.fr/avotreservice/elections/telechargements/EssaiDP2015/"
-OUT_DIR = "/home/paulloz/gits/departementales-2015/src/assets/json/results/"
+OUT_DIR = "../src/assets/json/results/"
 
 def parseFloat(s):
     return float(s.replace(',', '.'))
