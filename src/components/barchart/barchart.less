@@ -9,15 +9,17 @@
 
     svg {
 
+      text {
+        fill: @text-color;
+        font:12px @font-family-sans-serif;
+      }
+
         .axis {
 
-            text {
-                font: 10px sans-serif;
-            }
 
             path, line {
                 fill: none;
-                stroke: #000;
+                stroke: @text-color;
                 shape-rendering: crispEdges;
             }
 
@@ -32,7 +34,6 @@
                     text-anchor: end !important;
                     shape-rendering: crispEdges;
                 }
-
             }
 
         }
