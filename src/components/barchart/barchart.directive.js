@@ -143,7 +143,7 @@ angular.module('departementales2015')
 
                 // Listen on events in our ns
                 $rootScope.$on(ns + ":openTt", function(event, i) {
-                    openTt(d3.select(".bar-" + String(i)), $scope.data[i], i);
+                    openTt(svg.select(".bar-" + String(i)), $scope.data[i], i);
                 });
 
                 $rootScope.$on(ns + ":closeTt", function() {
