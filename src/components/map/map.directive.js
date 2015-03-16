@@ -46,6 +46,15 @@ angular.module('departementales2015')
                             doubleClickZoom : false
                         };
 
+                        $scope.tiles = {
+                            url : "assets/tile.gif",
+                            options : {
+                                opacity : 0,
+                                detectRetina : false,
+                                reuseTiles : true
+                            }
+                        };
+
                         $scope.legend = {
                             position : "bottomleft",
                             colors : [],
@@ -106,7 +115,6 @@ angular.module('departementales2015')
                         $scope.markers = { };
                         if (!$state.is('home.france')) {
                             var pref = getPref($stateParams.dpt);
-                            console.debug(pref);
                             $scope.markers = {
                                 pref : {
                                     lat : pref.coord[0],
