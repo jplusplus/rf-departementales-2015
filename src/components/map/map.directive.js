@@ -7,7 +7,8 @@ angular.module('departementales2015')
             scope : {
                 data : '=data',
                 geo : '=geo',
-                centerLonLat : "=centerLonLat"
+                centerLonLat : "=centerLonLat",
+                marker : '=marker'
             },
             templateUrl : 'components/map/map.html',
             compile : function() {
@@ -124,6 +125,15 @@ angular.module('departementales2015')
                                     focus : false
                                 }
                             };
+
+                            if ($scope.marker != null) {
+                                $scope.markers.address = {
+                                    lat : $scope.marker.lat,
+                                    lng : $scope.marker.lng,
+                                    draggable : false,
+                                    focus : false
+                                }
+                            }
                         }
                     },
 

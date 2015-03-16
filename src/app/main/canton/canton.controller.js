@@ -54,6 +54,13 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         ns : "chartFE",
         linkedChartNs : "chartDpt"
     }
+
+    if ($stateParams.ll != null) {
+        $scope.mapMarker = {
+            lat : parseFloat($stateParams.ll.split(';')[1]),
+            lng : parseFloat($stateParams.ll.split(';')[0])
+        }
+    }
 };
 
 CantonCtrl.resolve = {

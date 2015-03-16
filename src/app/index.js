@@ -32,7 +32,7 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
         }
       })
       .state('home.canton', {
-        url: 'france/:dpt/:canton?t',
+        url: 'france/:dpt/:canton?t&ll',
         templateUrl: 'app/main/canton/canton.html',
         controller: 'CantonCtrl',
         reloadOnSearch: true,

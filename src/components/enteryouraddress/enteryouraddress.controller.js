@@ -27,7 +27,8 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
                 if (can != null) {
                     $state.go('home.canton', {
                         dpt : can.properties.code_dep,
-                        canton : can.properties.num_canton
+                        canton : can.properties.num_canton,
+                        ll : latLng.lat + ";" + latLng.lng
                     });
                 }
             }

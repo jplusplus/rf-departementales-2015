@@ -4,7 +4,7 @@
     <li><a ui-sref="home.canton({dpt:dpt.code,canton:canton.code})">{{canton.name}}</a></li>
 </ol>
 <div class='col-xs-6'>
-    <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
+    <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>
     <div hbarchart x-data="dataCanH" class="chart"></div>
 </div>
 <div class='col-xs-6'>
