@@ -102,6 +102,21 @@ angular.module('departementales2015')
                                 };
                             })()
                         };
+
+                        $scope.markers = { };
+                        if (!$state.is('home.france')) {
+                            var pref = getPref($stateParams.dpt);
+                            console.debug(pref);
+                            $scope.markers = {
+                                pref : {
+                                    lat : pref.coord[0],
+                                    lng : pref.coord[1],
+                                    message : pref.name,
+                                    draggable : false,
+                                    focus : false
+                                }
+                            };
+                        }
                     },
 
                     post : function($scope) {
