@@ -6,3 +6,4 @@ dist/
 venv/
 data/
 src/assets/json/results/
+.divshot-cache
