@@ -1,6 +1,6 @@
 'use strict';
 
-var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dptGeoJson, mapData) {
+var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, dptGeoJson, mapData) {
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -30,12 +30,22 @@ var DptCtrl = function($scope, $stateParams, leafletData, chartData, geojson, dp
         ns : "chartDpt",
         linkedChartNs : "chartFE"
     };
+    $scope.titleDpt = "Résultats par parti - " + $scope.dpt.name + " - ";
 
     $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
     $scope.configFE = {
         yLabel : "% de voix",
         ns : "chartFE",
         linkedChartNs : "chartDpt"
+    }
+    $scope.titleFE = "Résultats par parti - France - ";
+
+    if ($rootScope.getT() == 1) {
+        $scope.titleDpt += "1er tour";
+        $scope.titleFE += "1er tour";
+    } else {
+        $scope.titleDpt += "2nd tour";
+        $scope.titleFE += "2nd tour";
     }
 };
 
@@ -83,4 +93,4 @@ DptCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('DptCtrl', ['$scope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'dptGeoJson', 'mapData', DptCtrl]);
+    .controller('DptCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'dptGeoJson', 'mapData', DptCtrl]);

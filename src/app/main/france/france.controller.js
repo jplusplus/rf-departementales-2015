@@ -1,17 +1,22 @@
 'use strict';
 
-var FranceCtrl = function($scope, chartData, geojson, mapData) {
+var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
     // Map
     $scope.mapData = mapData;
     $scope.geojson = geojson;
 
     // Chart
     $scope.data = computeChartData(chartData);
-
-    $scope.config1 = {
+    $scope.config = {
         yLabel : "% de voix",
         ns : "chart1"
     };
+    $scope.chartTitle = "Résultats par parti - France - ";
+    if ($rootScope.getT() == 1) {
+        $scope.chartTitle += "1er tour";
+    } else {
+        $scope.chartTitle += "2nd tour";
+    }
 };
 
 FranceCtrl.resolve = {
@@ -35,4 +40,4 @@ FranceCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('FranceCtrl', ['$scope', 'chartData', 'geojson', 'mapData', FranceCtrl]);
+    .controller('FranceCtrl', ['$scope', '$rootScope', 'chartData', 'geojson', 'mapData', FranceCtrl]);

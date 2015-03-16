@@ -1,6 +1,6 @@
 'use strict';
 
-var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson, mapData) {
+var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData) {
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -23,6 +23,17 @@ var CantonCtrl = function($scope, $stateParams, leafletData, chartData, geojson,
                 $scope.center.push(map.getBoundsZoom(feature.getBounds()));
             });
             $scope.canton.name = geojson.features[i].properties.nom;
+
+            $scope.titleCan = "Résultats par parti - " + $scope.canton.name + " - ";
+            $scope.titleFE = "Résultats par parti - France - ";
+            if ($rootScope.getT() == 1) {
+                $scope.titleCan += "1er tour";
+                $scope.titleFE += "1er tour";
+            } else {
+                $scope.titleCan += "2nd tour";
+                $scope.titleFE += "2nd tour";
+            }
+
             break;
         }
     }
@@ -84,4 +95,4 @@ CantonCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('CantonCtrl', ['$scope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', CantonCtrl]);
+    .controller('CantonCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', CantonCtrl]);

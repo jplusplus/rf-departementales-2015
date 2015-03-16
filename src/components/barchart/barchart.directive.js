@@ -11,7 +11,8 @@ angular.module('departementales2015')
         return {
             scope : {
                 config : '=config',
-                data : '=data'
+                data : '=data',
+                title : '=title'
             },
 
             link : function($scope, $element) {
@@ -130,6 +131,14 @@ angular.module('departementales2015')
                             $rootScope.$broadcast(linkedChartNs + ":closeTt");
                         }
                    });
+
+
+                // Add the title
+                if ($scope.title != null && $scope.title.length > 0) {
+                    svg.append('text').attr('class', 'title').text($scope.title)
+                       .attr('x', width / 2).attr('text-anchor', 'middle')
+                       .attr('y', -10);
+                }
 
 
                 // Listen on events in our ns
