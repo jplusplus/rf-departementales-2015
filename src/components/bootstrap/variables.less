@@ -1,3 +1,4 @@
+@import url(http://fonts.googleapis.com/css?family=Slabo+13px);
 //
 // Variables
 // --------------------------------------------------
@@ -7,18 +8,18 @@
 //
 //## Gray and brand colors for use across Bootstrap.
 
-@gray-base:              #000;
-@gray-darker:            lighten(@gray-base, 13.5%); // #222
-@gray-dark:              lighten(@gray-base, 20%);   // #333
-@gray:                   lighten(@gray-base, 33.5%); // #555
-@gray-light:             lighten(@gray-base, 46.7%); // #777
-@gray-lighter:           lighten(@gray-base, 93.5%); // #eee
+@gray-base:              #212121;
+@gray-darker:            #303030;
+@gray-dark:              #424242;
+@gray:                   #747474;
+@gray-light:             #aeaeae;
+@gray-lighter:           #c7c7c7;
 
-@brand-primary:         #E22000;
-@brand-success:         darken(#00e3a6, 10);
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+@brand-primary:         #20409A;
+@brand-success:         #52a45b;
+@brand-info:            #99ccff;
+@brand-warning:         #f1a248;
+@brand-danger:          #a51c30;
 
 
 //== Scaffolding
@@ -28,7 +29,7 @@
 //** Background color for `<body>`.
 @body-bg:               #fff;
 //** Global text color on `<body>`.
-@text-color:            @gray-dark;
+@text-color:            #4A4A4A;
 
 //** Global textual link color.
 @link-color:            @brand-primary;
@@ -43,12 +44,12 @@
 //## Font, line-height, and color for body text, headings, and more.
 
 @font-family-sans-serif:  Arial, "Helvetica Neue", Helvetica, sans-serif;
-@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+@font-family-serif:       'Slabo 13px', Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          14px;
+@font-size-base:          13px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
@@ -65,7 +66,7 @@
 @line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
 
 //** By default, this inherits from the `<body>`.
-@headings-font-family:    inherit;
+@headings-font-family:    @font-family-serif;
 @headings-font-weight:    500;
 @headings-line-height:    1.1;
 @headings-color:          inherit;

@@ -1,44 +1,69 @@
 .navbar {
-    box-shadow: 0 1px 4px 0px rgba(0, 0, 0, .4);
-    height: 100px;
-    background-color: @rf-grey;
-    border-width: 0;
-    border-bottom: 1px solid #000;
-    margin-bottom: 0;
 
-    .container-fluid {
-        height: 100%;
-        padding: 0;
+  background:#E7E7E7;
+  border-bottom:#BDBDBD 1px solid;
+  overflow: visible;
 
-        > div {
-            height: 100%;
-            padding: 0;
-            color: #fff;
-            border-right: 1px solid #000;
+  &__brand {
 
-            &:last-of-type {
-                border-right: none;
-            }
+  }
 
-            p {
-                text-align: center;
-            }
+  &__tabs {
 
-            .btn {
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-                background-color: @rf-grey;
+    @tab-gap: 10px;
+    @tab-height: @navbar-height - @tab-gap;
 
-                &:hover {
-                    background: darken(@rf-grey, 10%);
-                    color: #fff;
-                }
+    margin:0;
+    margin-top: @tab-gap;
+    height:@tab-height;
+    border-left:#BDBDBD 1px solid;
 
-            }
+    &__tab {
+      display:block;
+      margin:0;
+      height:@tab-height;
+      text-align: center;
+      float:left;
+      position: relative;
 
-        }
+      border:#BDBDBD 1px solid;
+      border-bottom: 0;
+      border-left: 0;
 
+      &:after, &:before {
+        content:"";
+        position:absolute;
+        left:0;
+        right:0;
+        height:0;
+        .transition(0.4s);
+      }
+
+      &:before {
+        bottom:100%;
+        background:@brand-primary;
+      }
+
+      &:after {
+        top:100%;
+        background:@body-bg;
+      }
+
+
+      &--active {
+        background: @body-bg;
+        &:before { height:2px; }
+        &:after { height:1px; }
+      }
+
+      a {
+        display: block;
+        width:100%;
+        height:@tab-height;
+        font-size:1.2em;
+        padding:0 10px;
+        line-height:@tab-height;
+      }
     }
-
+  }
 }

@@ -1,20 +1,25 @@
-<nav class="navbar navbar-static-top navbar-inverse" ng-controller="NavbarCtrl">
+<nav class="navbar navbar-static-top" ng-controller="NavbarCtrl">
   <div class="container-fluid">
     <div class="col-xs-4">
-      <p>
+      <div class="navbar__brand">
         Départementales 2015
         <br />
-        22 & 29 mars 2015
-      </p>
+        22 &amp; 29 mars 2015
+      </div>
     </div>
-    <div class="col-xs-2">
-      <p>Les résultats</p>
-    </div>
-    <div class="col-xs-3">
-      <button class="btn" ng-click="goToT(1)" ng-class="{ active : t === 1 }">1er tour</button>
-    </div>
-    <div class="col-xs-3">
-      <button class="btn" ng-click="goToT(2)" ng-class="{ active : t === 2 }">2nd tour</button>
+    <div class="col-xs-8">
+      <ul class="list-inline navbar__tabs">
+        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : true }">
+          <a ng-click="goToT(1)">
+            1er tour
+          </a>
+        </li>
+        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : t === 2 }">
+          <a ng-click="goToT(2)">
+            2nd tour
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
