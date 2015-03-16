@@ -64,8 +64,8 @@ gulp.task('html', ['inject', 'partials'], function () {
 });
 
 gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/images/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/images/'));
+  return gulp.src(paths.src + '/assets/**/*{png,gif,jpg,svg,ico}')
+    .pipe(gulp.dest(paths.dist + '/assets/'));
 });
 
 gulp.task('fonts', function () {
