@@ -110,7 +110,8 @@ angular.module('departementales2015')
                                         fillOpacity : 1
                                     });
 
-                                    if ($state.is("home.canton") && $stateParams.canton == $scope.getCodeFromData(feature.properties)) {
+                                    if ($state.is("home.canton")
+                                     && parseInt($stateParams.canton) == parseInt($scope.getCodeFromData(feature.properties))) {
                                         layer.setStyle({
                                             weight : 2,
                                             opacity: 1
