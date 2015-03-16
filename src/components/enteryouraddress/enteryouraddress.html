@@ -1,15 +1,17 @@
-<div class="container-fluid enteryouraddress" ng-controller="EnterYourAddressCtrl">
-    <div class="col-xs-3"></div>
-    <div class="col-xs-6">
+<div class="enteryouraddress" ng-controller="EnterYourAddressCtrl">
+    <div class="enteryouraddress__wrapper">
+        <i class="enteryouraddress__wrapper__icon fa fa-map-marker fa-5x"></i>
         <p>Entrez votre adresse pour connaitre les résultats dans votre canton :</p>
         <form novalidate ng-submit="onSubmit()">
             <div class='input-group'>
                 <input ng-model="address" type="text" class="form-control" />
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default">Valider</button>
+                    <button type="button" class="btn btn-default">
+                      <span class="sr-only">Localiser</span>
+                      <i class="fa fa-search"></i>
+                    </button>
                 </span>
             </div>
         </form>
     </div>
-    <div class="col-xs-3"></div>
 </div>

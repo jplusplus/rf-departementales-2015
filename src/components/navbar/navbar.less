@@ -1,6 +1,5 @@
 .navbar {
-
-  background:#E7E7E7;
+  background: @navbar-default-bg;
   border-bottom:#BDBDBD 1px solid;
   overflow: visible;
 
@@ -37,7 +36,6 @@
       border-left: 0;
       background: mix(@breadcrumb-bg, #E7E7E7);
       font-family:@headings-font-family;
-      .transition(0.4s);
 
       &:after, &:before {
         content:"";
@@ -45,7 +43,6 @@
         left:0;
         right:0;
         height:0;
-        .transition(inherit);
       }
 
       &:before {
