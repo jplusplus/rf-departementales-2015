@@ -5,6 +5,12 @@
   overflow: visible;
 
   &__brand {
+    line-height: @navbar-height;
+
+    img {
+      max-height: @navbar-height;
+      max-width: 100%;
+    }
 
   }
 
@@ -14,7 +20,7 @@
     @tab-height: @navbar-height - @tab-gap;
 
     margin:0;
-    margin-top: @tab-gap;
+    margin-top: @tab-gap + 1px;
     height:@tab-height;
     border-left:#BDBDBD 1px solid;
 
@@ -29,6 +35,9 @@
       border:#BDBDBD 1px solid;
       border-bottom: 0;
       border-left: 0;
+      background: mix(@breadcrumb-bg, #E7E7E7);
+      font-family:@headings-font-family;
+      .transition(0.4s);
 
       &:after, &:before {
         content:"";
@@ -36,7 +45,7 @@
         left:0;
         right:0;
         height:0;
-        .transition(0.4s);
+        .transition(inherit);
       }
 
       &:before {
@@ -46,20 +55,21 @@
 
       &:after {
         top:100%;
-        background:@body-bg;
+        background:@breadcrumb-bg;
       }
 
 
       &--active {
-        background: @body-bg;
+        background: @breadcrumb-bg;
         &:before { height:2px; }
-        &:after { height:1px; }
+        &:after { height:2px; }
       }
 
       a {
         display: block;
         width:100%;
         height:@tab-height;
+        font-weight: bold;
         font-size:1.2em;
         padding:0 10px;
         line-height:@tab-height;
