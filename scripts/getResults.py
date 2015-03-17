@@ -155,8 +155,17 @@ def computeDptMapData(t, dptCod3Car, canList):
 
 if __name__ == "__main__":
     t = 1
-    if len(sys.argv) > 1:
-        t = int(sys.argv[1])
+
+    argv = sys.argv
+
+    for (i, arg) in enumerate(argv):
+        if arg[:7] == "--dest=":
+            OUT_DIR = arg.split('=')[1]
+            argv = argv[:i] + argv[i+1:]
+            break
+
+    if len(argv) > 1:
+        t = int(argv[1])
 
     # Bootstrap output dir
     mkdir(OUT_DIR)
