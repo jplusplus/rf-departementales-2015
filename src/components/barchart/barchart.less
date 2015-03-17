@@ -2,6 +2,7 @@
     position: relative;
     top: 0;
     left: 0;
+    background:#f3f3f3;
 
     .tooltip {
         pointer-events: none;
@@ -9,19 +10,19 @@
 
     svg {
 
-      text {
-        fill: @text-color;
-        font:12px @font-family-sans-serif;
-      }
+        text {
+          fill: lighten(@text-color, 10);
+          font:12px @font-family-sans-serif;
+        }
 
         .axis {
 
-
             path, line {
                 fill: none;
-                stroke: @text-color;
+                stroke: none;
                 shape-rendering: crispEdges;
             }
+
 
             &.x .tick {
 
@@ -30,6 +31,8 @@
                 }
 
                 text {
+                    font-weight: bold;
+                    fill: @text-color;
                     transform: rotate(-25deg);
                     text-anchor: end !important;
                     shape-rendering: crispEdges;
@@ -69,7 +72,7 @@
         .rulers {
 
             line {
-                stroke: #bbb;
+                stroke: fade(#fff, 50);
                 stroke-width: 1;
                 shape-rendering: crispEdges;
             }
