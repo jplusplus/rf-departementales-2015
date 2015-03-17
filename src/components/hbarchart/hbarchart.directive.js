@@ -17,16 +17,15 @@ angular.module('departementales2015')
                 var margin = {
                     top : 10,
                     right : 150,
-                    bottom : 60,
+                    bottom : 10,
                     left : 20
                 };
 
                 var svg, width, height, x, y;
+                var groupHeight = 100;
 
                 width = $($element).width() - (margin.left + margin.right);
-                height = $($element).height() - (margin.top + margin.bottom);
-
-
+                height = $scope.data.length * groupHeight - (margin.top + margin.bottom);
                 // Bootstrap svg
                 svg = d3.select($element[0]).append('svg')
                         .attr('width', width + (margin.left + margin.right))
@@ -63,15 +62,15 @@ angular.module('departementales2015')
                     text.attr("x", 0)
                         .attr("y", y("Pre " + d.label) + (y.rangeBand() / 2));
 
-                    text.append("tspan").text(d.label);
-                    text.append("tspan").text(d.nom).attr('dy', 20).attr('x', 0);
+                    text.append("tspan").attr("class", "group").text(d.label);
+                    text.append("tspan").attr("class", "candidats").text(d.nom).attr('dy', 20).attr('x', 0);
 
                     text = svg.append("text");
                     text.attr("x", width)
                         .attr("y", y(d.label));
 
-                    text.append("tspan").text(d.value + "%");
-                    text.append("tspan").text(d.nombre + " voies").attr('dy', 20).attr('x', width);
+                    text.append("tspan").attr("class", "perc").text(d.value + "%");
+                    text.append("tspan").attr("class", "votes").text(d.nombre + " voies").attr('dy', 20).attr('x', width);
                 }
             }
         };
