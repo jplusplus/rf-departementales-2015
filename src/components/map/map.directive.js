@@ -34,7 +34,7 @@ angular.module('departementales2015')
                             $scope.center = {
                                 lat: 46,
                                 lng: 3.5,
-                                zoom: 5.2
+                                zoom: 5
                             };
                         }
 
@@ -48,11 +48,13 @@ angular.module('departementales2015')
                         };
 
                         $scope.tiles = {
-                            url : "assets/tile.gif",
+                            url : 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+                            type: 'sxyz',
                             options : {
-                                opacity : 0,
-                                detectRetina : false,
-                                reuseTiles : true
+                                opacity : 1,
+                                detectRetina : true,
+                                reuseTiles : true,
+                                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
                             }
                         };
 
@@ -107,7 +109,7 @@ angular.module('departementales2015')
 
                                     layer.setStyle({
                                         fillColor : color,
-                                        fillOpacity : 1
+                                        fillOpacity : 0.8
                                     });
 
                                     if ($state.is("home.canton")
