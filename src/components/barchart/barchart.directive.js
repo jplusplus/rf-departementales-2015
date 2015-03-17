@@ -61,7 +61,7 @@ angular.module('departementales2015')
                     });
 
                     if (d.tooltip != null) {
-                        tt.select(".tooltip-inner").text(d.tooltip);
+                        tt.select(".tooltip-inner").html(d.tooltip);
                     } else {
                         tt.select(".tooltip-inner").text(d.label + " : " + formatValue(d.value) + "%");
                     }

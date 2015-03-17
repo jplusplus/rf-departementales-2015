@@ -193,14 +193,14 @@ var computeChartData = function (data) {
     firstSeven.push({
         label : "ABS",
         value : lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit + lastColumnData.abstentions.rapportInscrit,
-        tooltip : "Blancs et nuls : " + formatValue(lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) + "%",
+        tooltip : "Blancs et nuls : " + formatValue(lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) + "%<br />(% d'inscrits)",
         color : "BLANCSNULS"
     });
     firstSeven.push({
         label : "ABS",
         value : lastColumnData.abstentions.rapportInscrit,
         color : "ABS",
-        tooltip : "Abstentions : " + formatValue(lastColumnData.abstentions.rapportInscrit) + "%"
+        tooltip : "Abstentions : " + formatValue(lastColumnData.abstentions.rapportInscrit) + "%<br />(% d'inscrits)"
     });
 
     return firstSeven;
@@ -245,14 +245,14 @@ var computeChartDataAs = function (data, as) {
     ret.push({
         label : "ABS",
         value : data.nuls.rapportInscrit + data.blancs.rapportInscrit + data.abstentions.rapportInscrit,
-        tooltip : "Blancs et nuls : " + formatValue(data.nuls.rapportInscrit + data.blancs.rapportInscrit) + "%",
+        tooltip : "Blancs et nuls : " + formatValue(data.nuls.rapportInscrit + data.blancs.rapportInscrit) + "%<br />(% d'inscrits)",
         color : "BLANCSNULS"
     });
     ret.push({
         label : "ABS",
         value : data.abstentions.rapportInscrit,
         color : "ABS",
-        tooltip : "Abstentions : " + formatValue(data.abstentions.rapportInscrit) + "%"
+        tooltip : "Abstentions : " + formatValue(data.abstentions.rapportInscrit) + "%<br />(% d'inscrits)"
     });
 
     return ret;

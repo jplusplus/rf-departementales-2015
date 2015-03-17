@@ -8,7 +8,7 @@ var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
     // Chart
     $scope.data = computeChartData(chartData);
     $scope.config = {
-        yLabel : "% de voix",
+        yLabel : "% de voix exprimées",
         ns : "chart1"
     };
     $scope.chartTitle = "Résultats par parti - France - ";

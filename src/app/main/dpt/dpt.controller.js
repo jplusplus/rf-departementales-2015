@@ -26,7 +26,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
     // Charts
     $scope.dataDpt = computeChartData(chartData.dpt);
     $scope.configDpt = {
-        yLabel : "% de voix",
+        yLabel : "% de voix exprimées",
         ns : "chartDpt",
         linkedChartNs : "chartFE"
     };
@@ -34,7 +34,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
 
     $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
     $scope.configFE = {
-        yLabel : "% de voix",
+        yLabel : "% de voix exprimées",
         ns : "chartFE",
         linkedChartNs : "chartDpt"
     }

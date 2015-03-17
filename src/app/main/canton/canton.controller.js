@@ -42,7 +42,7 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
     // Charts
     $scope.dataCan = computeChartData(chartData.canton);
     $scope.configCan = {
-        yLabel : "% de voix",
+        yLabel : "% de voix exprimées",
         ns : "chartDpt",
         linkedChartNs : "chartFE"
     };
@@ -51,7 +51,7 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
 
     $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
     $scope.configFE = {
-        yLabel : "% de voix",
+        yLabel : "% de voix exprimées",
         ns : "chartFE",
         linkedChartNs : "chartDpt"
     }
