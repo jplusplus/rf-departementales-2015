@@ -121,6 +121,11 @@ angular.module('departementales2015')
                             })()
                         };
 
+                        var markerIcon = {
+                            iconUrl : 'assets/map-marker.svg',
+                            iconSize : [26, 26],
+                            iconAnchor : [13, 13]
+                        };
                         $scope.markers = { };
                         if (!$state.is('home.france')) {
                             var pref = getPref($stateParams.dpt);
@@ -130,7 +135,8 @@ angular.module('departementales2015')
                                     lng : pref.coord[1],
                                     message : pref.name,
                                     draggable : false,
-                                    focus : false
+                                    focus : false,
+                                    icon : markerIcon
                                 }
                             };
 
@@ -139,7 +145,8 @@ angular.module('departementales2015')
                                     lat : $scope.marker.lat,
                                     lng : $scope.marker.lng,
                                     draggable : false,
-                                    focus : false
+                                    focus : false,
+                                    icon : markerIcon
                                 }
                             }
                         }
