@@ -164,7 +164,7 @@ angular.module('departementales2015')
                         $scope.click = function(event) {
                             if ($state.is('home.france')) {
                                 $state.go('home.dpt', { dpt : event.target.feature.properties.code });
-                            } else if ($state.is('home.dpt')) {
+                            } else {
                                 $state.go('home.canton', { dpt : $stateParams.dpt , canton : event.target.feature.properties.num_canton });
                             }
                         };
