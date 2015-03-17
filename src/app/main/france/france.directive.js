@@ -9,7 +9,7 @@ angular.module('departementales2015')
           var resize = function() {
             var height = $(window).height();
             height -= $(el).offset().top;
-            height -= $(".enteryouraddress").height();
+            height -= $(".enteryouraddress").outerHeight();
             $(el).css("min-height", height);
           };
 
