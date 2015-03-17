@@ -1,39 +1,43 @@
 <div class="footer" ng-controller="FooterCtrl">
-    <div class="col-xs-4 col-xs-offset-2">
-        <h4>Partage</h4>
-        <p>
-            Partagez les résultats du
-            <select ng-model="selectedT">
-                <option ng-selected="selectedT==1" value="1">1er</value>
-                <option ng-selected="selectedT==2" value="2">2nd</value>
-            </select>
-            tour sur les réseaux sociaux.
-        </p>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6">
+          <h4>Partage</h4>
+          <p>
+              Partagez les résultats du
+              <select ng-model="selectedT">
+                  <option ng-selected="selectedT==1" value="1">1er</value>
+                  <option ng-selected="selectedT==2" value="2">2nd</value>
+              </select>
+              tour sur les réseaux sociaux.
+          </p>
 
-        <!-- Facebook -->
-        <div id="fb-root"></div>
-        <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
-            fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-        <div class="fb-share-button" data-href="{{getShareUrl()}}" data-layout="button"></div>
-        <!-- data-href="URL"-->
-        <!-- Twitter -->
-        <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="{{getShareUrl()}}">Tweet</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          <!-- Facebook -->
+          <div id="fb-root"></div>
+          <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.0";
+              fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));
+          </script>
+          <div class="fb-share-button" data-href="{{getShareUrl()}}" data-layout="button"></div>
+          <!-- data-href="URL"-->
+          <!-- Twitter -->
+          <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="{{getShareUrl()}}">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-        <!-- Google Plus -->
-        <script src="https://apis.google.com/js/platform.js" async defer>
-          {lang: 'fr'}
-        </script>
-        <div class="g-plus" data-action="share" data-annotation="none" data-href="{{getShareUrl()}}"></div>
+          <!-- Google Plus -->
+          <script src="https://apis.google.com/js/platform.js" async defer>
+            {lang: 'fr'}
+          </script>
+          <div class="g-plus" data-action="share" data-annotation="none" data-href="{{getShareUrl()}}"></div>
+      </div>
+      <div class="col-xs-6">
+          <h4>Intégration</h4>
+          <textarea readonly class="form-control">{{getIframeElement()}}</textarea>
+      </div>
     </div>
-    <div class="col-xs-4">
-        <h4>Intégration</h4>
-        <textarea readonly class="form-control">{{getIframeElement()}}</textarea>
-    </div>
+  </div>
 </div>
