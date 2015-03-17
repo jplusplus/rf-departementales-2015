@@ -1,16 +1,19 @@
 'use strict';
 
-angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scope', '$http', '$state', function ($scope, $http, $state) {
+angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scope', '$http', '$state', 'Loader', function ($scope, $http, $state, Loader) {
     var geojson;
     var base_url = "http://nominatim.openstreetmap.org/search.php";
 
     $scope.onSubmit = function() {
+        Loader.increment();
+
         $http.get(base_url, {
             params : {
                 format : 'json',
                 q : $scope.address
             }
         }).then(function(data) {
+            Loader.decrement();
             if (data.status === 200 && data.data.length > 0) {
                 var can = undefined;
                 var latLng = L.latLng(data.data[0].lon, data.data[0].lat);

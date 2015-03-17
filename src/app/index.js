@@ -44,7 +44,7 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
       });
 
     $urlRouterProvider.otherwise('/france');
-  }]).run(['$rootScope', '$window', function($rootScope, $window) {
+  }]).run(['$rootScope', '$window', 'Loader', function($rootScope, $window, Loader) {
     var t = 1;
 
     var computeT = function(toParams) {
@@ -58,13 +58,19 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
       computeT(toParams);
+      Loader.increment();
     });
 
     $rootScope.$on('$stateChangeError', function() {
       console.debug("ERROR", arguments);
+      Loader.decrement();
     });
+
+    $rootScope.$on('$stateChangeSuccess', function() {
+      Loader.decrement();
+    })
 
     $rootScope.getT = function() {
       return t;
-    }
+    };
   }]);
