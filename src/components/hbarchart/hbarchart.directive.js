@@ -18,7 +18,7 @@ angular.module('departementales2015')
                     top : 10,
                     right : 150,
                     bottom : 60,
-                    left : 0
+                    left : 20
                 };
 
                 var svg, width, height, x, y;
