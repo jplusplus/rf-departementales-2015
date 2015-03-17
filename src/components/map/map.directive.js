@@ -161,6 +161,7 @@ angular.module('departementales2015')
                                 var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                 var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
                                 popup.options.closeButton = false;
+                                popup.options.autoPan = false;
                                 popup.setContent(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + data[1] + "%");
                                 popup.openOn(map);
                             };
