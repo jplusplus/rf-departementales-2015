@@ -43,6 +43,8 @@ angular.module('departementales2015')
 
 
                 var openTt = function(d3This, d, i) {
+                    tt.attr('rel', i);
+
                     var postShift = false;
                     if (parseFloat(d3This.attr("x")) < width / 2) {
                         tt.classed({ left : false , right : true });
@@ -69,8 +71,10 @@ angular.module('departementales2015')
                     }
                 };
 
-                var closeTt = function() {
-                    tt.style("opacity", 0);
+                var closeTt = function(i) {
+                    if (tt.attr('rel') == i) {
+                        tt.style("opacity", 0);
+                    }
                 };
 
 
@@ -121,12 +125,12 @@ angular.module('departementales2015')
                             $rootScope.$broadcast(linkedChartNs + ":openTt", i);
                         }
                    })
-                   .on("mouseout", function() {
+                   .on("mouseout", function(d, i) {
                         // Close local tt
-                        closeTt();
+                        closeTt(i);
                         // Send close command to other charts
                         if (linkedChartNs != null) {
-                            $rootScope.$broadcast(linkedChartNs + ":closeTt");
+                            $rootScope.$broadcast(linkedChartNs + ":closeTt", i);
                         }
                    });
 
@@ -153,9 +157,9 @@ angular.module('departementales2015')
                     openTt(svg.select(".bar-" + String(i)), $scope.data[i], i);
                 });
 
-                $rootScope.$on(ns + ":closeTt", function() {
-                    closeTt();
-                })
+                $rootScope.$on(ns + ":closeTt", function(event, i) {
+                    closeTt(i);
+                });
             }
         };
     }]);
