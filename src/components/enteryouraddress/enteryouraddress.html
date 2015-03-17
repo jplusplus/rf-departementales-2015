@@ -2,6 +2,7 @@
     <div class="enteryouraddress__wrapper">
         <i class="enteryouraddress__wrapper__icon fa fa-map-marker fa-5x"></i>
         <p>Entrez votre adresse pour connaitre les résultats dans votre canton :</p>
+        <p ng-if="error" class="enteryouraddress__wrapper__error label label-danger center-block">{{error}}</p>
         <form novalidate ng-submit="onSubmit()">
             <div class='input-group'>
                 <input ng-model="address" type="text" class="form-control" />
@@ -12,6 +13,6 @@
                     </button>
                 </span>
             </div>
-        </form>
+         </form>
     </div>
 </div>

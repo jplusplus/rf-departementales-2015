@@ -4,7 +4,11 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
     var geojson;
     var base_url = "http://nominatim.openstreetmap.org/search.php";
 
+    $scope.error = undefined;
+
     $scope.onSubmit = function() {
+        $scope.error = undefined;
+
         Loader.increment();
 
         $http.get(base_url, {
@@ -33,7 +37,11 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
                         canton : can.properties.num_canton,
                         ll : latLng.lat + ";" + latLng.lng
                     });
+                } else {
+                    $scope.error = "Cette adresse n'est pas concernée par les élections.";
                 }
+            } else {
+                $scope.error = "Adresse invalide."
             }
         });
     };
