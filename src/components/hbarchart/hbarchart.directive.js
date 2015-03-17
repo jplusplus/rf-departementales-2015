@@ -69,7 +69,7 @@ angular.module('departementales2015')
                     text.attr("x", width)
                         .attr("y", y(d.label));
 
-                    text.append("tspan").attr("class", "perc").text(d.value + "%");
+                    text.append("tspan").attr("class", "perc").text(formatValue(d.value) + "%");
                     text.append("tspan").attr("class", "votes").text(d.nombre + " voies").attr('dy', 20).attr('x', width);
                 }
             }

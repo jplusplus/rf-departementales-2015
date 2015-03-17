@@ -174,7 +174,7 @@ var computeChartData = function (data) {
     // Dissociate first 7 from the rest
     var firstSeven = _.slice(_.cloneDeep(data), 0, 7);
     var other = _.map(_.sortBy(_.slice(data, firstSeven.length), 'value'), function(v) {
-        v.tooltip = v.label + " : " + String(Math.round(v.value * 10) / 10) + "%";
+        v.tooltip = v.label + " : " + formatValue(v.value) + "%";
         v.label = "Autres";
         return v;
     });
@@ -193,14 +193,14 @@ var computeChartData = function (data) {
     firstSeven.push({
         label : "ABS",
         value : lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit + lastColumnData.abstentions.rapportInscrit,
-        tooltip : "Blancs et nuls : " + String(Math.round((lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) * 10) / 10) + "%",
+        tooltip : "Blancs et nuls : " + formatValue(lastColumnData.nuls.rapportInscrit + lastColumnData.blancs.rapportInscrit) + "%",
         color : "BLANCSNULS"
     });
     firstSeven.push({
         label : "ABS",
         value : lastColumnData.abstentions.rapportInscrit,
         color : "ABS",
-        tooltip : "Abstentions : " + String(Math.round(lastColumnData.abstentions.rapportInscrit * 10) / 10) + "%"
+        tooltip : "Abstentions : " + formatValue(lastColumnData.abstentions.rapportInscrit) + "%"
     });
 
     return firstSeven;
@@ -233,7 +233,7 @@ var computeChartDataAs = function (data, as) {
             color : as[i].color,
             value : otherSummedValue,
             label : as[i].label,
-            tooltip : getLabelFromNuance(as[i].color) + ' : ' + (Math.round(data[as[i].color].rapportExprime * 10) / 10) + "%"
+            tooltip : getLabelFromNuance(as[i].color) + ' : ' + formatValue(data[as[i].color].rapportExprime) + "%"
         });
         otherSummedValue -= data[as[i].color].rapportExprime;
         ++i;
@@ -245,14 +245,14 @@ var computeChartDataAs = function (data, as) {
     ret.push({
         label : "ABS",
         value : data.nuls.rapportInscrit + data.blancs.rapportInscrit + data.abstentions.rapportInscrit,
-        tooltip : "Blancs et nuls : " + String(Math.round((data.nuls.rapportInscrit + data.blancs.rapportInscrit) * 10) / 10) + "%",
+        tooltip : "Blancs et nuls : " + formatValue(data.nuls.rapportInscrit + data.blancs.rapportInscrit) + "%",
         color : "BLANCSNULS"
     });
     ret.push({
         label : "ABS",
         value : data.abstentions.rapportInscrit,
         color : "ABS",
-        tooltip : "Abstentions : " + String(Math.round(data.abstentions.rapportInscrit * 10) / 10) + "%"
+        tooltip : "Abstentions : " + formatValue(data.abstentions.rapportInscrit) + "%"
     });
 
     return ret;
@@ -367,3 +367,8 @@ var getPref = (function() {
         return mapping[dpt];
     }
 })();
+
+var formatValue = function(value) {
+    value = Math.round(value * 10) / 10;
+    return String(value).replace('.', ',');
+}
