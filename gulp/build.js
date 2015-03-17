@@ -95,3 +95,10 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'json', 'misc', 'script']);
+
+gulp.task('deploy', ['build'], function() {
+  return gulp.src("./dist/**/*").pipe($.ghPages({
+    remoteUrl: 'git@github.com:jplusplus/rf-departementales-2015.git',
+    cacheDir: '/tmp/rf-departementales-2015'
+  }));
+});
