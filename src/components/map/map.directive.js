@@ -125,8 +125,8 @@ angular.module('departementales2015')
 
                         var markerIcon = {
                             iconUrl : 'assets/map-marker.svg',
-                            iconSize : [30, 26],
-                            iconAnchor : [15, 13]
+                            iconSize : [26, 20],
+                            iconAnchor : [13, 10]
                         };
                         $scope.markers = { };
                         if (!$state.is('home.france')) {
