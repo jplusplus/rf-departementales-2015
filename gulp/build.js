@@ -94,11 +94,16 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
+gulp.task('clean:dist', function(done) {
+  $.del(paths.dist + '/.git', done);
+});
+
 gulp.task('build', ['html', 'images', 'fonts', 'json', 'misc', 'script']);
 
-gulp.task('deploy', ['build'], function() {
+gulp.task('deploy', ['clean:dist', 'build'], function() {
   return gulp.src("./dist/**/*").pipe($.ghPages({
     remoteUrl: 'git@github.com:jplusplus/rf-departementales-2015.git',
-    cacheDir: '/tmp/rf-departementales-2015'
+    cacheDir: '/tmp/rf-departementales-2015',
+    force: true
   }));
 });

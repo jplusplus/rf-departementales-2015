@@ -7,3 +7,5 @@ venv/
 data/
 src/assets/json/results/
 .divshot-cache
+*.zip
+*.tar.gz
