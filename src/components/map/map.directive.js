@@ -148,7 +148,6 @@ angular.module('departementales2015')
                                     lng : $scope.marker.lng,
                                     draggable : false,
                                     focus : false,
-                                    icon : markerIcon
                                 }
                             }
                         }
