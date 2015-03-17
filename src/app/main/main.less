@@ -34,6 +34,17 @@
       width:50%;
       border-right:1px solid  lighten(@text-color, 50);
       .box-shadow(1px 0 1px rgba(0,0,0,.05));
+
+      @media (max-width: @screen-xs-max) {
+        position:static;
+        height: 400px;
+        width:100%;
+        margin-top: -1px * @line-height-computed;
+        margin-bottom: @line-height-computed;
+
+        border-right:0;
+        border-bottom:1px solid  lighten(@text-color, 50);
+      }
     }
   }
 
