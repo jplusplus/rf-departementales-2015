@@ -6,20 +6,24 @@
   <div class="main__dpt__map">
     <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
   </div>
-  <div class='col-sm-6'>
-    <div class="main__dpt__side-chart panel panel-default">
-      <div class="panel-heading">
-        <h3>{{titleDpt}}</h3>
+  <div class="container-fluid">
+    <div class="row">
+      <div class='col-sm-6'>
+        <div class="main__dpt__side-chart panel panel-default">
+          <div class="panel-heading">
+            <h3>{{titleDpt}}</h3>
+          </div>
+          <div barchart x-data="dataDpt" x-config="configDpt" class='chart'></div>
+        </div>
       </div>
-      <div barchart x-data="dataDpt" x-config="configDpt" class='chart'></div>
-    </div>
-  </div>
-  <div class='col-sm-6'>
-    <div class="main__dpt__side-chart panel panel-default">
-      <div class="panel-heading">
-        <h3>{{titleFE}}</h3>
+      <div class='col-sm-6'>
+        <div class="main__dpt__side-chart panel panel-default">
+          <div class="panel-heading">
+            <h3>{{titleFE}}</h3>
+          </div>
+          <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
+        </div>
       </div>
-      <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
     </div>
   </div>
 </div>

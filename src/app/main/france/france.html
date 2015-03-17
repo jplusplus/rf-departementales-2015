@@ -6,17 +6,21 @@
       </a>
     </li>
   </ol>
-  <div class='col-sm-6'>
-    <div class="main__france__map">
-      <map x-geo="geojson" x-data="mapData"></map>
-    </div>
-  </div>
-  <div class='col-sm-6'>
-    <div class="main__france__side-chart panel panel-default">
-      <div class="panel-heading">
-        <h3>{{ chartTitle }}</h3>
+  <div class="container-fluid">
+    <div class="row">
+      <div class='col-sm-6'>
+        <div class="main__france__map">
+          <map x-geo="geojson" x-data="mapData"></map>
+        </div>
       </div>
-      <div barchart x-data="data" x-config="config"  class='chart'></div>
+      <div class='col-sm-6'>
+        <div class="main__france__side-chart panel panel-default">
+          <div class="panel-heading">
+            <h3>{{ chartTitle }}</h3>
+          </div>
+          <div barchart x-data="data" x-config="config"  class='chart'></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
