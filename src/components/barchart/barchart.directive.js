@@ -61,7 +61,7 @@ angular.module('departementales2015')
                     if (d.tooltip != null) {
                         tt.select(".tooltip-inner").text(d.tooltip);
                     } else {
-                        tt.select(".tooltip-inner").text(d.label + " : " + d.value + "%");
+                        tt.select(".tooltip-inner").text(d.label + " : " + (Math.round(d.value * 10) / 10) + "%");
                     }
 
                     if (postShift) {
