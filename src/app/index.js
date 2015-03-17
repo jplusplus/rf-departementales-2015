@@ -39,7 +39,8 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
         resolve: {
           chartData : CantonCtrl.resolve.chartData,
           geojson : CantonCtrl.resolve.geojson,
-          mapData : CantonCtrl.resolve.mapData
+          mapData : CantonCtrl.resolve.mapData,
+          leafletMap : CantonCtrl.resolve.leafletMap
         }
       });
 
