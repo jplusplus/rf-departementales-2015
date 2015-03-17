@@ -1,4 +1,4 @@
-<div class="main__france">
+<div>
   <ol class="breadcrumb">
     <li>
       <a ui-sref="home.france">
@@ -6,14 +6,12 @@
       </a>
     </li>
   </ol>
-  <div class="container-fluid">
+  <div class="container-fluid main__france" france>
+    <div class="main__france__map">
+      <map x-geo="geojson" x-data="mapData"></map>
+    </div>
     <div class="row">
-      <div class='col-sm-6'>
-        <div class="main__france__map">
-          <map x-geo="geojson" x-data="mapData"></map>
-        </div>
-      </div>
-      <div class='col-sm-6'>
+      <div class='col-sm-6 col-sm-offset-6'>
         <div class="main__france__side-chart panel panel-default">
           <div class="panel-heading">
             <h3>{{ chartTitle }}</h3>
