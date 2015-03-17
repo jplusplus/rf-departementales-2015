@@ -7,9 +7,9 @@ angular.module('departementales2015')
         link: function(scope, el) {
 
           var resize = function() {
-            var height = $(window).height()
-            height -= $(el).offset().top
-            height -= $(".enteryouraddress").height()
+            var height = $(window).height();
+            height -= $(el).offset().top;
+            height -= $(".enteryouraddress").height();
             $(el).css("min-height", height);
           };
 
