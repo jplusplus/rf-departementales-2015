@@ -4,13 +4,8 @@
       <li><a ui-sref="home.dpt({dpt:dpt.code})">{{dpt.name}}</a></li>
       <li><a ui-sref="home.canton({dpt:dpt.code,canton:canton.code})">{{canton.name}}</a></li>
   </ol>
-  <div class='col-sm-6'>
-    <div class="main__canton__map">
-      <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>
-    </div>
-    <div class="main__canton__map-chart panel panel-default">
-      <div hbarchart x-data="dataCanH" class="chart"></div>
-    </div>
+  <div class="main__canton__map">
+    <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>
   </div>
   <div class='col-sm-6'>
     <div class="main__canton__side-chart panel panel-default">
@@ -19,11 +14,18 @@
       </div>
       <div barchart x-data="dataCan" x-config="configCan" class='chart'></div>
     </div>
+  </div>
+  <div class='col-sm-6'>
     <div class="main__canton__side-chart panel panel-default">
       <div class="panel-heading">
         <h3>{{titleFE}}</h3>
       </div>
       <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
+    </div>
+  </div>
+  <div class='col-sm-12'>
+    <div class="main__canton__map-chart panel panel-default">
+      <div hbarchart x-data="dataCanH" class="chart"></div>
     </div>
   </div>
 </div>

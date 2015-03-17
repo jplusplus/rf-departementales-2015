@@ -3,10 +3,8 @@
       <li><a ui-sref="home.france">France</a></li>
       <li><a ui-sref="home.dpt({dpt:dpt.code})">{{dpt.name}}</a></li>
   </ol>
-  <div class='col-sm-6'>
-    <div class="main__dpt__map">
-      <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
-    </div>
+  <div class="main__dpt__map">
+    <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
   </div>
   <div class='col-sm-6'>
     <div class="main__dpt__side-chart panel panel-default">
@@ -15,6 +13,8 @@
       </div>
       <div barchart x-data="dataDpt" x-config="configDpt" class='chart'></div>
     </div>
+  </div>
+  <div class='col-sm-6'>
     <div class="main__dpt__side-chart panel panel-default">
       <div class="panel-heading">
         <h3>{{titleFE}}</h3>
