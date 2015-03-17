@@ -1,6 +1,6 @@
 'use strict';
 
-var CantonCtrl = function($scope, $rootScope, $stateParams, leafletMap, chartData, geojson, mapData) {
+var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData) {
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -11,6 +11,7 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletMap, chartDat
         name : ""
     }
 
+
     // Map
     $scope.mapData = mapData;
     $scope.geojson = geojson;
@@ -18,8 +19,10 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletMap, chartDat
         var feature = L.polygon(geojson.features[i].geometry.coordinates[0]);
         if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
             var lonLat = feature.getBounds().getCenter();
-            $scope.center = [lonLat.lng, lonLat.lat, ];
-            $scope.center.push(leafletMap.getBoundsZoom(feature.getBounds()));
+            $scope.center = [lonLat.lng, lonLat.lat];
+            leafletData.getMap().then(function(map) {
+                $scope.center.push(map.getBoundsZoom(feature.getBounds()));
+            });
             $scope.canton.name = geojson.features[i].properties.nom;
 
             $scope.titleCan = "Résultats par parti - " + $scope.canton.name + " - ";
@@ -96,14 +99,8 @@ CantonCtrl.resolve = {
         return $http.get('assets/json/results/T' + t + '/' + dpt + '/MAP.json').then(function(data) {
             return data.data;
         });
-    }],
-
-    leafletMap : ['leafletData', function(leafletData) {
-        return leafletData.getMap().then(function(map) {
-            return map;
-        });
     }]
 };
 
 angular.module('departementales2015')
-    .controller('CantonCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletMap', 'chartData', 'geojson', 'mapData', CantonCtrl]);
+    .controller('CantonCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', CantonCtrl]);
