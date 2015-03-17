@@ -11,7 +11,7 @@ angular.module('departementales2015')
         };
 
         $scope.getIframeElement = function() {
-            return '<iframe src="' + $scope.baseUrl + '" width="636" height="780"></iframe>';
+            return '<iframe src="' + $scope.baseUrl + '" width="100%" height="780" frameborder="0" allowfullscreen></iframe>';
         }
 
         $scope.$watch(function() { return $rootScope.getT(); }, function() {
