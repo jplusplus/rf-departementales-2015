@@ -85,8 +85,13 @@ gulp.task('misc', function () {
     .pipe(gulp.dest(paths.dist + '/'));
 });
 
+gulp.task('script', function() {
+  return gulp.src(paths.src + '/../scripts/getResults.py')
+    .pipe(gulp.dest(paths.dist + '/'));
+});
+
 gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'json', 'misc']);
+gulp.task('build', ['html', 'images', 'fonts', 'json', 'misc', 'script']);
