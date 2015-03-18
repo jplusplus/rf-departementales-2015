@@ -6,11 +6,11 @@ var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
     $scope.geojson = geojson.departements;
 
     $scope.geojson971 = geojson[971];
-    $scope.center971 = [16.17, -61.52, 8];
+    $scope.center971 = [16.17, -61.52, 7];
     $scope.geojson974 = geojson[974];
-    $scope.center974 = [-21.21, 55.53, 8];
+    $scope.center974 = [-21.11, 55.53, 7];
     $scope.geojson976 = geojson[976];
-    $scope.center976 = [-12.90, 45.16, 9];
+    $scope.center976 = [-12.85, 45.16, 8];
 
     // Chart
     $scope.data = computeChartData(chartData);

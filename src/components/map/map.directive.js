@@ -37,7 +37,7 @@ angular.module('departementales2015')
                             }
                         } else {
                             $scope.center = {
-                                lat: 46,
+                                lat: 46.5,
                                 lng: 3.5,
                                 zoom: 5
                             };
