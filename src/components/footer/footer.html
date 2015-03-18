@@ -1,7 +1,7 @@
 <div class="footer" ng-controller="FooterCtrl">
   <div class="container">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-4">
           <h4>Partage</h4>
           <p>
               Partagez les résultats du
@@ -34,9 +34,13 @@
           </script>
           <div class="g-plus" data-action="share" data-annotation="none" data-href="{{getShareUrl()}}"></div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-4">
           <h4>Intégration</h4>
           <textarea readonly class="form-control">{{getIframeElement()}}</textarea>
+      </div>
+      <div class="col-xs-4">
+          <h4>À propos</h4>
+          <p><a href="https://github.com/jplusplus/rf-departementales-2015"><> Code source</a> - Réalisé par <a href="http://jplusplus.org/">Journalism++</a> pour <a href="http://www.radiofrance.fr/">Radio France</a>. Sources : <a href="https://www.data.gouv.fr/fr/datasets/contours-osm-des-cantons-electoraux-departementaux-2015/">Données géographiques - Open Street Map</a> - <a href="http://elections.interieur.gouv.fr/departementales-2015/">Résultats électoraux - Ministère de l'intérieur</a></p>
       </div>
     </div>
   </div>
