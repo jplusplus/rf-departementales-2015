@@ -19,7 +19,7 @@ angular.module('departementales2015')
                 var margin = {
                     top : 40,
                     right : 0,
-                    bottom : 60,
+                    bottom : 90,
                     left : 50
                 };
                 var padding = 10;
