@@ -47,7 +47,7 @@ angular.module('departementales2015')
                             zoomControl : false,
                             keyboard : false,
                             dragging : false,
-                            attributionControl : false,
+                            attributionControl : ($scope.hasLegend == null || $scope.hasLegend === true),
                             scrollWheelZoom : false,
                             doubleClickZoom : false
                         };
