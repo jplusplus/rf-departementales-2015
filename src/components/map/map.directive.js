@@ -14,7 +14,11 @@ angular.module('departementales2015')
             templateUrl : 'components/map/map.html',
             compile : function() {
                 return {
-                    pre : function($scope) {
+                    pre : function($scope, $element, $attrs) {
+                        if ($attrs.id != null) {
+                            $scope.mapid = 'm_' + $attrs.id;
+                        }
+
                         $scope.getCodeFromData = function(data) {
                             if ($state.is('home.france')) {
                                 return data.code;
@@ -158,8 +162,9 @@ angular.module('departementales2015')
                         }
                     },
 
-                    post : function($scope) {
-                        leafletData.getMap().then(function(map) {
+                    post : function($scope, $element, $attrs) {
+                        var mapId = $attrs.id != null ? 'm_' + $attrs.id : undefined;
+                        leafletData.getMap(mapId).then(function(map) {
                             $scope.mouseenter = function(event) {
                                 var feature = event.target.feature;
                                 var data = $scope.data[$scope.getCodeFromData(feature.properties)];

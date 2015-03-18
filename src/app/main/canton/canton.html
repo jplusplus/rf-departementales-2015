@@ -5,7 +5,7 @@
       <li><a ui-sref="home.canton({dpt:dpt.code,canton:canton.code})">{{canton.name}}</a></li>
   </ol>
   <div class="main__canton__map">
-    <map x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>
+    <map id="mapcanton" x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>
   </div>
   <div class="container-fluid">
     <div class="row">
