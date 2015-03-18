@@ -22,14 +22,10 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
                 var can = undefined;
                 var latLng = L.latLng(data.data[0].lon, data.data[0].lat);
 
-                // We need to iterate over geojson features to find the right one
-                for (var i = 0; i < geojson.features.length; ++i) {
-                    var feature = geojson.features[i];
-                    var latLngBounds = L.polygon(feature.geometry.coordinates[0]).getBounds();
-                    if (latLngBounds.contains(latLng)) {
-                        can = feature;
-                        break;
-                    }
+                // Find the right feature
+                var containers = leafletPip.pointInLayer([latLng.lat, latLng.lng], L.geoJson(geojson), true);
+                if (containers.length > 0) {
+                    can = containers[0].feature;
                 }
 
                 if (can != null) {
