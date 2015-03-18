@@ -101,6 +101,8 @@ angular.module('departementales2015')
                                     if (_.has($scope.data, $scope.getCodeFromData(feature.properties))) {
                                         var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                         if (data != null) {
+                                            layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
+
                                             color = getColorFromNuance(data[0]);
                                             addToLegend(color, getLabelFromNuance(data[0]));
 
@@ -164,21 +166,6 @@ angular.module('departementales2015')
 
                     post : function($scope, $element, $attrs) {
                         var mapId = $attrs.id != null ? 'm_' + $attrs.id : undefined;
-                        leafletData.getMap(mapId).then(function(map) {
-                            $scope.mouseenter = function(event) {
-                                var feature = event.target.feature;
-                                var data = $scope.data[$scope.getCodeFromData(feature.properties)];
-                                var popup = L.popup().setLatLng(event.target.getBounds().getCenter())
-                                popup.options.closeButton = false;
-                                popup.options.autoPan = false;
-                                popup.setContent(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
-                                popup.openOn(map);
-                            };
-
-                            $scope.mouseout = function() {
-                                map.closePopup();
-                            };
-                        });
 
                         $scope.click = function(event) {
                             if ($state.is('home.france')) {
