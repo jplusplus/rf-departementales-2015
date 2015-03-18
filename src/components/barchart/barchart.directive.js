@@ -104,7 +104,7 @@ angular.module('departementales2015')
                 if ($scope.config.yLabel != null) {
                     svgYAxis.append("text")
                             .attr("transform", "rotate(-90)")
-                            .attr("y", 6).attr("dy", ".71em")
+                            .attr("y", -5).attr("dy", ".71em")
                             .style("text-anchor", "end")
                             .text($scope.config.yLabel);
                 }
