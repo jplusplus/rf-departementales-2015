@@ -166,6 +166,13 @@ angular.module('departementales2015')
 
                     post : function($scope, $element, $attrs) {
                         var mapId = $attrs.id != null ? 'm_' + $attrs.id : undefined;
+                        leafletData.getMap(mapId).then(function(map) {
+                            $scope.mouseenter = function(event) {
+                            };
+
+                            $scope.mouseout = function() {
+                            };
+                        });
 
                         $scope.click = function(event) {
                             if ($state.is('home.france')) {

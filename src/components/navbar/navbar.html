@@ -7,12 +7,12 @@
     </div>
     <div class="col-xs-8 col-sm-9  col-md-10">
       <ul class="list-inline navbar__tabs">
-        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : t === 1 }">
+        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : getT() === 1 }">
           <a ng-click="goToT(1)">
             1<sup>er</sup> tour
           </a>
         </li>
-        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : t === 2 }">
+        <li class="navbar__tabs__tab" ng-class="{ 'navbar__tabs__tab--active' : getT() === 2 }">
           <a ng-click="goToT(2)">
             2<sup>nd</sup> tour
           </a>

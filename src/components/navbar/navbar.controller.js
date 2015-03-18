@@ -2,7 +2,9 @@
 
 angular.module('departementales2015')
   .controller('NavbarCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
-    $scope.t = $rootScope.getT();
+    $scope.getT = function() {
+        return $rootScope.getT();
+    };
 
     $scope.goToT = function(t) {
         if (t == 1 || t == 2) {
