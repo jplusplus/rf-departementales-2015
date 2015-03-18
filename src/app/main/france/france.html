@@ -8,7 +8,20 @@
   </ol>
   <div class="main__france" france>
     <div class="main__france__map">
-      <map x-geo="geojson" x-data="mapData"></map>
+      <div class='row main__france__map__metropol'>
+        <map x-geo="geojson" x-data="mapData"></map>
+      </div>
+      <div class='row main__france__map__domtom'>
+        <div class='col-xs-4'>
+          <map x-geo="geojson971" x-center-lon-lat="center971" x-data="mapData" x-has-legend="false"></map>
+        </div>
+        <div class='col-xs-4'>
+          <map x-geo="geojson974" x-center-lon-lat="center974" x-data="mapData" x-has-legend="false"></map>
+        </div>
+        <div class='col-xs-4'>
+          <map x-geo="geojson976" x-center-lon-lat="center976" x-data="mapData" x-has-legend="false"></map>
+        </div>
+      </div>
     </div>
     <div class="container-fluid ">
       <div class="row">

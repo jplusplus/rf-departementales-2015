@@ -80,17 +80,28 @@ CantonCtrl.resolve = {
     }],
 
     geojson : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get('assets/json/geo/cantons.geojson').then(function(data) {
-            var features = [];
-            for (var i = 0; i < data.data.features.length; ++i) {
-                var feature = data.data.features[i];
-                if (feature.properties.code_dep === $stateParams.dpt) {
-                    features.push(feature);
+        if ([971, 974, 976].indexOf(parseInt($stateParams.dpt)) >= 0) {
+            return $http.get('assets/json/geo/' + $stateParams.dpt + '.geojson').then(function(data) {
+                data = data.data;
+                for (var i = 0; i < data.features.length; ++i) {
+                    data.features[i].properties.code_dep = $stateParams.dpt;
+                    data.features[i].properties.num_canton = parseInt(data.features[i].properties.num_canton);
                 }
-            }
-            data.data.features = features;
-            return data.data;
-        });
+                return data;
+            });
+        } else {
+            return $http.get('assets/json/geo/cantons.geojson').then(function(data) {
+                var features = [];
+                for (var i = 0; i < data.data.features.length; ++i) {
+                    var feature = data.data.features[i];
+                    if (feature.properties.code_dep === $stateParams.dpt) {
+                        features.push(feature);
+                    }
+                }
+                data.data.features = features;
+                return data.data;
+            });
+        }
     }],
 
     mapData : ['$http', '$stateParams', '$rootScope', function($http, $stateParams, $rootScope) {

@@ -8,7 +8,8 @@ angular.module('departementales2015')
                 data : '=data',
                 geo : '=geo',
                 centerLonLat : "=centerLonLat",
-                marker : '=marker'
+                marker : '=marker',
+                hasLegend : '=hasLegend'
             },
             templateUrl : 'components/map/map.html',
             compile : function() {
@@ -58,11 +59,15 @@ angular.module('departementales2015')
                             }
                         };
 
-                        $scope.legend = {
-                            position : "bottomleft",
-                            colors : [],
-                            labels : []
-                        };
+                        if ($scope.hasLegend == null || $scope.hasLegend === true) {
+                            $scope.legend = {
+                                position : "bottomleft",
+                                colors : [],
+                                labels : []
+                            };
+                        } else {
+                            $scope.legend = false;
+                        }
 
                         $scope.events = {
                             map : {
@@ -79,7 +84,7 @@ angular.module('departementales2015')
                             },
                             onEachFeature: (function() {
                                 var addToLegend = function(color, label) {
-                                    if (! _.contains($scope.legend.colors, color)) {
+                                    if ($scope.legend && ! _.contains($scope.legend.colors, color)) {
                                         var legend = _.cloneDeep($scope.legend);
                                         legend.colors.push(color);
                                         legend.labels.push(label);
