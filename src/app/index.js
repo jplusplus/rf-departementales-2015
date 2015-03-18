@@ -27,7 +27,6 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
         resolve: {
           chartData : DptCtrl.resolve.chartData,
           geojson : DptCtrl.resolve.geojson,
-          dptGeoJson : DptCtrl.resolve.dptGeoJson,
           mapData : DptCtrl.resolve.mapData
         }
       })

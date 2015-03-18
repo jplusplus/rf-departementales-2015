@@ -20,7 +20,7 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
             var lonLat = feature.getBounds().getCenter();
             $scope.center = [lonLat.lng, lonLat.lat];
-            leafletData.getMap().then(function(map) {
+            leafletData.getMap("m_mapcanton").then(function(map) {
                 $scope.center.push(map.getBoundsZoom(feature.getBounds()));
             });
             $scope.canton.name = geojson.features[i].properties.nom;

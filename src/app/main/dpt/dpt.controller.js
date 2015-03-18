@@ -1,6 +1,6 @@
 'use strict';
 
-var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, dptGeoJson, mapData) {
+var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData) {
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -10,18 +10,27 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
     // Map
     $scope.mapData = mapData;
     $scope.geojson = geojson;
-    for (var i = 0; i < dptGeoJson.features.length; ++i) {
-        var feature = dptGeoJson.features[i];
-        if (feature.properties.code == $scope.dpt.code) {
-            feature = L.polygon(feature.geometry.coordinates[0]);
-            var lonLat = feature.getBounds().getCenter();
-            $scope.center = [lonLat.lng, lonLat.lat, ];
-            leafletData.getMap().then(function(map) {
-                $scope.center.push(map.getBoundsZoom(feature.getBounds()));
-            });
-            break;
+    leafletData.getMap("m_mapdpt").then(function(map) {
+        var bounds = L.polygon(geojson.features[0].geometry.coordinates[0]).getBounds();
+        for (var i = 1; i < geojson.features.length; ++i) {
+            var tmpBounds = L.polygon(geojson.features[i].geometry.coordinates[0]).getBounds();
+            if (tmpBounds._northEast.lat > bounds._northEast.lat) {
+                bounds._northEast.lat = tmpBounds._northEast.lat;
+            }
+            if (tmpBounds._northEast.lng > bounds._northEast.lng) {
+                bounds._northEast.lng = tmpBounds._northEast.lng;
+            }
+            if (tmpBounds._southWest.lat < bounds._southWest.lat) {
+                bounds._southWest.lat = tmpBounds._southWest.lat;
+            }
+            if (tmpBounds._southWest.lng < bounds._southWest.lng) {
+                bounds._southWest.lng = tmpBounds._southWest.lng;
+            }
         }
-    }
+
+        var center = bounds.getCenter();
+        $scope.center = [center.lng, center.lat, map.getBoundsZoom(bounds)];
+    });
 
     // Charts
     $scope.dataDpt = computeChartData(chartData.dpt);
@@ -64,23 +73,24 @@ DptCtrl.resolve = {
     }],
 
     geojson : ['$http', '$stateParams', function($http, $stateParams) {
-        return $http.get("assets/json/geo/cantons.geojson").then(function(data) {
-            var ret = [];
-            var code_dep = $stateParams.dpt;
-            for (var i = 0; i < data.data.features.length; ++i) {
-                if (data.data.features[i].properties.code_dep === code_dep) {
-                    ret.push(data.data.features[i]);
-                }
-            }
-            data.data.features = ret;
-            return data.data;
-        });
-    }],
+        var code_dep = $stateParams.dpt;
 
-    dptGeoJson : ['$http', function($http) {
-        return $http.get("assets/json/geo/departements.geojson").then(function(data) {
-            return data.data;
-        });
+        if ([971, 974, 976].indexOf(parseInt(code_dep)) >= 0) {
+            return $http.get("assets/json/geo/" + code_dep + ".geojson").then(function(data) {
+                return data.data;
+            });
+        } else {
+            return $http.get("assets/json/geo/cantons.geojson").then(function(data) {
+                var ret = [];
+                for (var i = 0; i < data.data.features.length; ++i) {
+                    if (data.data.features[i].properties.code_dep === code_dep) {
+                        ret.push(data.data.features[i]);
+                    }
+                }
+                data.data.features = ret;
+                return data.data;
+            });
+        }
     }],
 
     mapData : ['$http', '$stateParams', '$rootScope', function($http, $stateParams, $rootScope) {
@@ -93,4 +103,4 @@ DptCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('DptCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'dptGeoJson', 'mapData', DptCtrl]);
+    .controller('DptCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', DptCtrl]);
