@@ -24,6 +24,9 @@ def getDptsToUpdate(t):
     r = requests.get(BASE_URL + 'resultatsT{0}/index.xml'.format(t))
     soup = BeautifulSoup(r.text, "xml")
 
+    if soup.Election is None:
+        return (toUpdate, dpts)
+
     for dpt in soup.Election.Departements.findAll("Departement"):
         mustUpdate = False
         codDpt3Car = dpt.CodDpt3Car.string
@@ -60,9 +63,11 @@ def getFEResults(t, fName = None):
 
     r = requests.get(BASE_URL + 'resultatsT{0}/{1}.xml'.format(t, fName))
     soup = BeautifulSoup(r.text, "xml")
-    
+
     # No data yet
-    if soup.Tours is None: exit("Results not available (yet).")
+    if soup.Tours is None:
+        print("Results not available (yet).")
+        return None
 
     try:
         tour = soup.Tours.findAll("Tour")[t - 1]
@@ -95,8 +100,7 @@ def getFEResults(t, fName = None):
                     rapportExprime=parseFloat(binome.RapportExprime.string),
                     nom=binome.LibBin.string
                 )
-
-    except IndexError as e:
+    except:
         pass
     return results
 
@@ -176,8 +180,10 @@ if __name__ == "__main__":
     mkdir(os.path.join(OUT_DIR, 'T{0}'.format(t)))
 
     # Retrieve global France results
-    with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as f:
-        f.write(json.dumps(getFEResults(t)))
+    FEResults = getFEResults(t)
+    if FEResults != None:
+        with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as f:
+            f.write(json.dumps())
 
     # Retrieve global Dpt results
     (toUpdate, allDpts) = getDptsToUpdate(t)
