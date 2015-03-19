@@ -184,6 +184,9 @@ if __name__ == "__main__":
     if FEResults != None:
         with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as f:
             f.write(json.dumps(FEResults))
+        if t == 2:
+            with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE_exists.json'), "w") as f:
+                f.write(json.dumps({}))
 
     # Retrieve global Dpt results
     (toUpdate, allDpts) = getDptsToUpdate(t)
@@ -192,6 +195,9 @@ if __name__ == "__main__":
 
         with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "{0}.json".format(dptCod3Car)), "w") as f:
             f.write(json.dumps(getDptResults(t, dptCod3Car, lastUpdateDateTime)))
+        if t == 2:
+            with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "{0}_exists.json".format(dptCod3Car)), "w") as f:
+                f.write(json.dumps({}))
 
         # Retrieve Can results
         outFolder = os.path.join(OUT_DIR, 'T{0}'.format(t), dptCod3Car)
@@ -202,6 +208,9 @@ if __name__ == "__main__":
         for codCan in canList:
             with open(os.path.join(outFolder, "{0}.json".format(codCan)), 'w') as f:
                 f.write(json.dumps(getCanResults(t, dptCod3Car, codCan)))
+            if t == 2:
+                with open(os.path.join(outFolder, "{0}_exists.json".format(codCan)), "w") as f:
+                    f.write(json.dumps({}))
 
         # Compute data for Dpt map
         with open(os.path.join(outFolder, "MAP.json"), "w") as f:
@@ -219,6 +228,8 @@ if __name__ == "__main__":
         resultsDir = os.path.join(OUT_DIR, 'T{0}'.format(t))
         if len(os.listdir(resultsDir)) > 0:
             for f in os.listdir(resultsDir):
+                if "exists" in f:
+                    continue
                 filePath = os.path.join(resultsDir, f)
                 if f[:2] != 'FE' and os.path.isfile(filePath):
                     with open(filePath, 'r') as jsonFile:
@@ -240,3 +251,6 @@ if __name__ == "__main__":
             computedResults['blancs']['rapportInscrit'] = computedResults['blancs']['nombre'] * 100 / computedResults['inscrits']['nombre']
             with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as fFE:
                 fFE.write(json.dumps(computedResults))
+            if t == 2:
+                with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE_exists.json'), "w") as f:
+                    f.write(json.dumps({}))
