@@ -7,7 +7,7 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
-BASE_URL = "http://www.interieur.gouv.fr/avotreservice/elections/telechargements/DP2015/"
+BASE_URL = "http://elections.interieur.gouv.fr/telechargements/DP2015/"
 OUT_DIR = "../src/assets/json/results/"
 
 def parseFloat(s):
