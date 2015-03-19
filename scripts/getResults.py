@@ -208,34 +208,35 @@ if __name__ == "__main__":
             f.write(json.dumps(computeDptMapData(t, dptCod3Car, canList)))
 
     # Compute data for France map
-    with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "FEMAP.json"), "w") as f:
-        franceMapData = computeFranceMapData(t, allDpts)
-        if len(franceMapData.keys()) > 0:
+    franceMapData = computeFranceMapData(t, allDpts)
+    if len(franceMapData.keys()) > 0:
+        with open(os.path.join(OUT_DIR, 'T{0}'.format(t), "FEMAP.json"), "w") as f:
             f.write(json.dumps(franceMapData))
 
     if FEResults == None:
         # We must compute partial FE results based on our .json files
         computedResults = {}
         resultsDir = os.path.join(OUT_DIR, 'T{0}'.format(t))
-        for f in os.listdir(resultsDir):
-            filePath = os.path.join(resultsDir, f)
-            if f[:2] != 'FE' and os.path.isfile(filePath):
-                with open(filePath, 'r') as jsonFile:
-                    results = json.loads(jsonFile.read())['results']
-                    for key in results:
-                        if key == "inscrits":
-                            results[key] = dict(nombre=results[key])
-                        if key not in computedResults:
-                            computedResults[key] = dict(
-                                nombre=results[key]["nombre"],
-                            )
-                        else:
-                            computedResults[key]["nombre"] += results[key]["nombre"]
-        for key in computedResults:
-            if key[:2] == 'BC':
-                computedResults[key]['rapportExprime'] = computedResults[key]['nombre'] * 100 / computedResults['exprimes']['nombre']
-        computedResults['abstentions']['rapportInscrit'] = computedResults['abstentions']['nombre'] * 100 / computedResults['inscrits']['nombre']
-        computedResults['nuls']['rapportInscrit'] = computedResults['nuls']['nombre'] * 100 / computedResults['inscrits']['nombre']
-        computedResults['blancs']['rapportInscrit'] = computedResults['blancs']['nombre'] * 100 / computedResults['inscrits']['nombre']
-        with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as fFE:
-            fFE.write(json.dumps(computedResults))
+        if len(os.listdir(resultsDir)) > 0:
+            for f in os.listdir(resultsDir):
+                filePath = os.path.join(resultsDir, f)
+                if f[:2] != 'FE' and os.path.isfile(filePath):
+                    with open(filePath, 'r') as jsonFile:
+                        results = json.loads(jsonFile.read())['results']
+                        for key in results:
+                            if key == "inscrits":
+                                results[key] = dict(nombre=results[key])
+                            if key not in computedResults:
+                                computedResults[key] = dict(
+                                    nombre=results[key]["nombre"],
+                                )
+                            else:
+                                computedResults[key]["nombre"] += results[key]["nombre"]
+            for key in computedResults:
+                if key[:2] == 'BC':
+                    computedResults[key]['rapportExprime'] = computedResults[key]['nombre'] * 100 / computedResults['exprimes']['nombre']
+            computedResults['abstentions']['rapportInscrit'] = computedResults['abstentions']['nombre'] * 100 / computedResults['inscrits']['nombre']
+            computedResults['nuls']['rapportInscrit'] = computedResults['nuls']['nombre'] * 100 / computedResults['inscrits']['nombre']
+            computedResults['blancs']['rapportInscrit'] = computedResults['blancs']['nombre'] * 100 / computedResults['inscrits']['nombre']
+            with open(os.path.join(OUT_DIR, 'T{0}'.format(t), 'FE.json'), "w") as fFE:
+                fFE.write(json.dumps(computedResults))
