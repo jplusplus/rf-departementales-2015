@@ -172,6 +172,11 @@ angular.module('departementales2015')
 
                             $scope.mouseout = function() {
                             };
+
+                            if (map.attributionControl != null) {
+                                map.removeControl(map.attributionControl);
+                                map.addControl(L.control.attribution({ position : "bottomleft" }));
+                            }
                         });
 
                         $scope.click = function(event) {
