@@ -60,6 +60,10 @@ def getFEResults(t, fName = None):
 
     r = requests.get(BASE_URL + 'resultatsT{0}/{1}.xml'.format(t, fName))
     soup = BeautifulSoup(r.text, "xml")
+    
+    # No data yet
+    if soup.Tours is None: exit("Results not available (yet).")
+
     try:
         tour = soup.Tours.findAll("Tour")[t - 1]
 
