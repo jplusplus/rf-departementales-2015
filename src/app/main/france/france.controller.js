@@ -18,7 +18,7 @@ var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
         yLabel : "% de voix exprimées",
         ns : "chart1"
     };
-    $scope.chartTitle = "Résultats par parti - France - ";
+    $scope.chartTitle = "Résultats par parti - ";
     if ($rootScope.getT() == 1) {
         $scope.chartTitle += "1er tour";
     } else {

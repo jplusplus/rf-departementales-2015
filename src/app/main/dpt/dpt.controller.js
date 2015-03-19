@@ -41,7 +41,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
         ns : "chartDpt",
         linkedChartNs : "chartFE"
     };
-    $scope.titleDpt = "Résultats par parti - " + $scope.dpt.name + " - ";
+    $scope.titleDpt = "Résultats par parti - ";
 
     $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
     $scope.configFE = {
@@ -49,7 +49,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
         ns : "chartFE",
         linkedChartNs : "chartDpt"
     }
-    $scope.titleFE = "Résultats par parti - France - ";
+    $scope.titleFE = "Résultats par parti - ";
 
     if ($rootScope.getT() == 1) {
         $scope.titleDpt += "1er tour";

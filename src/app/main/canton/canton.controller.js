@@ -28,8 +28,8 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
             });
             $scope.canton.name = geojson.features[i].properties.nom;
 
-            $scope.titleCan = "Résultats par parti - " + $scope.canton.name + " - ";
-            $scope.titleFE = "Résultats par parti - France - ";
+            $scope.titleCan = "Résultats par parti - ";
+            $scope.titleFE = "Résultats par parti - ";
             if ($rootScope.getT() == 1) {
                 $scope.titleCan += "1er tour";
                 $scope.titleFE += "1er tour";

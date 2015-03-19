@@ -12,7 +12,7 @@
       <div class='col-sm-6'>
         <div class="main__canton__side-chart panel panel-default">
           <div class="panel-heading">
-            <h3>{{titleCan}}</h3>
+            <h3><span>{{canton.name}}</span><br />{{titleCan}}</h3>
           </div>
           <div barchart x-data="dataCan" x-config="configCan" class='chart'></div>
         </div>
@@ -20,7 +20,7 @@
       <div class='col-sm-6'>
         <div class="main__canton__side-chart panel panel-default">
           <div class="panel-heading">
-            <h3>{{titleFE}}</h3>
+            <h3><span>France</span><br />{{titleFE}}</h3>
           </div>
           <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
         </div>
