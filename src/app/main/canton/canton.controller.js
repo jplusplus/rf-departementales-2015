@@ -1,6 +1,7 @@
 'use strict';
 
-var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData) {
+var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData, Loader) {
+    Loader.increment();
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -19,9 +20,9 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         var feature = L.polygon(geojson.features[i].geometry.coordinates[0]);
         if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
             var lonLat = feature.getBounds().getCenter();
-            $scope.center = [lonLat.lng, lonLat.lat];
             leafletData.getMap("m_mapcanton").then(function(map) {
-                $scope.center.push(map.getBoundsZoom(feature.getBounds()));
+                $scope.center = [lonLat.lng, lonLat.lat, map.getBoundsZoom(feature.getBounds())];
+                Loader.decrement();
             });
             $scope.canton.name = geojson.features[i].properties.nom;
 
@@ -114,4 +115,4 @@ CantonCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('CantonCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', CantonCtrl]);
+    .controller('CantonCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', 'Loader', CantonCtrl]);

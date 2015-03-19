@@ -39,7 +39,7 @@ angular.module('departementales2015')
                             $scope.center = {
                                 lat: 46.5,
                                 lng: 3.5,
-                                zoom: 5
+                                zoom: $state.current.name === 'home.france' ? 5 : 8
                             };
                         }
 

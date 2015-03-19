@@ -1,6 +1,7 @@
 'use strict';
 
-var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData) {
+var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData, Loader) {
+    Loader.increment();
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -30,6 +31,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
 
         var center = bounds.getCenter();
         $scope.center = [center.lng, center.lat, map.getBoundsZoom(bounds)];
+        Loader.decrement();
     });
 
     // Charts
@@ -103,4 +105,4 @@ DptCtrl.resolve = {
 };
 
 angular.module('departementales2015')
-    .controller('DptCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', DptCtrl]);
+    .controller('DptCtrl', ['$scope', '$rootScope', '$stateParams', 'leafletData', 'chartData', 'geojson', 'mapData', 'Loader', DptCtrl]);
