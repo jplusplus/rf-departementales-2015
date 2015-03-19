@@ -7,6 +7,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
         code : $stateParams.dpt,
         name : getDptNameFromDptCode($stateParams.dpt)
     }
+    $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
 
     // Map
     $scope.mapData = mapData;
@@ -35,7 +36,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
     });
 
     // Charts
-    $scope.dataDpt = computeChartData(chartData.dpt);
+    $scope.dataDpt = computeChartData(chartData.dpt.results);
     $scope.configDpt = {
         yLabel : "% de voix exprimées",
         ns : "chartDpt",
@@ -66,7 +67,7 @@ DptCtrl.resolve = {
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
         return $q.all({
             dpt : $http.get("assets/json/results/T" + t + "/" + dpt + ".json").then(function(data) {
-                return data.data.results;
+                return data.data;
             }),
             FE : $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
                 return data.data;

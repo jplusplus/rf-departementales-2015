@@ -3,6 +3,7 @@
       <li><a ui-sref="home.france">France</a></li>
       <li><a ui-sref="home.dpt({dpt:dpt.code})">{{dpt.name}}</a></li>
       <li><a ui-sref="home.canton({dpt:dpt.code,canton:canton.code})">{{canton.name}}</a></li>
+      <span class="pull-right">{{ lastUpdate }}</span>
   </ol>
   <div class="main__canton__map">
     <map id="mapcanton" x-geo="geojson" x-center-lon-lat="center" x-data="mapData" x-marker="mapMarker"></map>

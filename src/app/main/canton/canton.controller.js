@@ -11,6 +11,7 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         code : $stateParams.canton,
         name : ""
     }
+    $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
 
 
     // Map
@@ -77,6 +78,9 @@ CantonCtrl.resolve = {
                 return data.data;
             }),
             FE : $http.get('assets/json/results/T' + t + '/FE.json').then(function(data) {
+                return data.data;
+            }),
+            dpt : $http.get('assets/json/results/T' + t + '/' + dpt + ".json").then(function(data) {
                 return data.data;
             })
         });

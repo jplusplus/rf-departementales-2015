@@ -372,3 +372,10 @@ var formatValue = function(value) {
     value = Math.round(value * 10) / 10;
     return String(value).replace('.', ',');
 }
+
+var formatLastUpdate = function(datetime) {
+    datetime = datetime.split(' ')
+    datetime[0] = datetime[0].split('/')
+    datetime[0] = [datetime[0][1], datetime[0][0], datetime[0][2]].join('/')
+    return "Dernière mise à jour le " + datetime[0] + " à " + datetime[1];
+}
