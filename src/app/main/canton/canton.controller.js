@@ -19,9 +19,11 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
     for (var i = 0; i < geojson.features.length; ++i) {
         var feature = L.polygon(geojson.features[i].geometry.coordinates[0]);
         if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
-            var lonLat = feature.getBounds().getCenter();
             leafletData.getMap("m_mapcanton").then(function(map) {
-                $scope.center = [lonLat.lng, lonLat.lat, map.getBoundsZoom(feature.getBounds())];
+                var bounds = feature.getBounds();
+                bounds._northEast.lng += 0.7;
+                bounds._southWest.lng -= 0.7;
+                $scope.center = [bounds.getCenter().lng, bounds.getCenter().lat, map.getBoundsZoom(bounds)];
                 Loader.decrement();
             });
             $scope.canton.name = geojson.features[i].properties.nom;

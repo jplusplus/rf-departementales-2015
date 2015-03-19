@@ -108,8 +108,6 @@ angular.module('departementales2015')
 
                                             // Bind events
                                             layer.on('click', $scope.click);
-                                            layer.on('mouseover', $scope.mouseenter);
-                                            layer.on('mouseout', $scope.mouseout);
                                         } else {
                                             color = "#999";
                                             addToLegend(color, "");
@@ -139,6 +137,7 @@ angular.module('departementales2015')
                             iconSize : [26, 20],
                             iconAnchor : [13, 10]
                         };
+
                         $scope.markers = { };
                         if (!$state.is('home.france')) {
                             var pref = getPref($stateParams.dpt);
@@ -159,6 +158,7 @@ angular.module('departementales2015')
                                     lng : $scope.marker.lng,
                                     draggable : false,
                                     focus : false,
+                                    class : "address"
                                 }
                             }
                         }
@@ -167,11 +167,7 @@ angular.module('departementales2015')
                     post : function($scope, $element, $attrs) {
                         var mapId = $attrs.id != null ? 'm_' + $attrs.id : undefined;
                         leafletData.getMap(mapId).then(function(map) {
-                            $scope.mouseenter = function(event) {
-                            };
-
-                            $scope.mouseout = function() {
-                            };
+                            map.boxZoom.disable();
 
                             if (map.attributionControl != null) {
                                 map.removeControl(map.attributionControl);
