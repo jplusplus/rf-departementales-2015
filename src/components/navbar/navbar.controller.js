@@ -7,7 +7,7 @@ angular.module('departementales2015')
     var checkIfT2 = function() {
         $scope.isT2 = false;
 
-        var urlToCheck = "/assets/json/results/T2/";
+        var urlToCheck = "assets/json/results/T2/";
 
         if ($state.is('home.france')) {
             urlToCheck += "FE_exists.json";
