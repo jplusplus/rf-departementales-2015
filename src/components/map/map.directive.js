@@ -169,7 +169,7 @@ angular.module('departementales2015')
                                 marker.bindLabel(pref.name, {
                                     noHide : true,
                                     className : "pref-marker",
-                                    offset : [-5, -30]
+                                    offset : [-5 + ((pref.name.length / 2) * -6), -30]
                                 });
                                 marker.addTo(map);
                             }
