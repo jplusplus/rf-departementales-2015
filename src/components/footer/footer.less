@@ -2,7 +2,18 @@
     background: @navbar-default-bg;
     padding: 1em 0 @enteryouraddress-height 0;
     border-top:lighten(@text-color, 50) 1px solid;
+
+    select {
+        margin: 0 5px;
+    }
+
     .box-shadow(0 1px 1px rgba(0,0,0,.05) inset);
+
+    .share-buttons {
+        & > * {
+            margin: 0 5px;
+        }
+    }
 
     .fb-share-button {
         position: relative;
