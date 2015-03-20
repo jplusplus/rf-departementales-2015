@@ -29,6 +29,20 @@ angular.module('departementales2015').controller('EnterYourAddressCtrl', ['$scop
                 }
 
                 if (can != null) {
+                    $http.get(base_url, {
+                        params : {
+                            format : 'json',
+                            q : data.data[0].lat + "," + data.data[0].lon
+                        }
+                    }).then(function(data) {
+                        if (data.status === 200 && data.data.length > 0) {
+                            var address = data.data[0].display_name;
+                            if (address[0] < '0' || address[0] > '9') {
+                                address = address.split(',').slice(1).join(',');
+                            }
+                            $scope.address = address;
+                        }
+                    });
                     $state.go('home.canton', {
                         dpt : can.properties.code_dep,
                         canton : can.properties.num_canton,
