@@ -354,7 +354,7 @@ var getPref = (function() {
         "93"    : { name : "Bobigny", coord : [48.908612, 2.439712] },
         "94"    : { name : "Créteil", coord : [48.790367, 2.455572] },
         "95"    : { name : "Cergy", coord : [49.035617, 2.060325] },
-        "971"   : { name : "Basse-Terre", coord : [17.302606, -62.717692] },
+        "971"   : { name : "Basse-Terre", coord : [16, -61.733] },
         "972"   : { name : "Fort-de-France", coord : [14.616065, -61.05878] },
         "973"   : { name : "Cayenne", coord : [4.9227, -52.3269] },
         "974"   : { name : "Saint-Denis", coord : [-20.882057, 55.450675] },
