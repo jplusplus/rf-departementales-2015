@@ -42,3 +42,16 @@
 .leaflet-popup {
     pointer-events: none;
 }
+
+.pref-marker {
+    background: transparent;
+    border: none;
+
+    transform: translate(-150%, -100%);
+    pointer-events: none;
+
+    &:after, &:before {
+        background: transparent;
+        border: none;
+    }
+}

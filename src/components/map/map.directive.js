@@ -132,34 +132,14 @@ angular.module('departementales2015')
                             })()
                         };
 
-                        var markerIcon = {
-                            iconUrl : 'assets/map-marker.svg',
-                            iconSize : [26, 20],
-                            iconAnchor : [13, 10]
-                        };
-
                         $scope.markers = { };
-                        if (!$state.is('home.france')) {
-                            var pref = getPref($stateParams.dpt);
-                            $scope.markers = {
-                                pref : {
-                                    lat : pref.coord[0],
-                                    lng : pref.coord[1],
-                                    message : pref.name,
-                                    draggable : false,
-                                    focus : false,
-                                    icon : markerIcon
-                                }
-                            };
-
-                            if ($scope.marker != null) {
-                                $scope.markers.address = {
-                                    lat : $scope.marker.lat,
-                                    lng : $scope.marker.lng,
-                                    draggable : false,
-                                    focus : false,
-                                    class : "address"
-                                }
+                        if ($scope.marker != null) {
+                            $scope.markers.address = {
+                                lat : $scope.marker.lat,
+                                lng : $scope.marker.lng,
+                                draggable : false,
+                                focus : false,
+                                class : "address"
                             }
                         }
                     },
@@ -172,6 +152,26 @@ angular.module('departementales2015')
                             if (map.attributionControl != null) {
                                 map.removeControl(map.attributionControl);
                                 map.addControl(L.control.attribution({ position : "bottomleft" }));
+                            }
+
+                            if (!$state.is('home.france')) {
+                                var pref = getPref($stateParams.dpt);
+                                var marker = L.marker([pref.coord[0], pref.coord[1]], {
+                                    draggable : false,
+                                    focus : false,
+                                    icon : L.icon({
+                                        iconUrl : 'assets/map-marker.svg',
+                                        iconSize : [26, 20],
+                                        iconAnchor : [13, 10],
+                                    }),
+                                    clickable : false
+                                });
+                                marker.bindLabel(pref.name, {
+                                    noHide : true,
+                                    className : "pref-marker",
+                                    offset : [-5, -30]
+                                });
+                                marker.addTo(map);
                             }
                         });
 
