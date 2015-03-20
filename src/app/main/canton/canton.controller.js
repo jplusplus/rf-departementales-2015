@@ -22,10 +22,11 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         if (geojson.features[i].properties.num_canton === parseInt($stateParams.canton)) {
             leafletData.getMap("m_mapcanton").then(function(map) {
                 var bounds = feature.getBounds();
-                var zoom = map.getBoundsZoom(bounds);
-                if (bounds._northEast.lng - bounds._southWest.lng > 0.1) {
-                    zoom -= 1;
+                if (bounds._northEast.lng - bounds._southWest.lng > 0.07 || ($scope.dpt.code == 13 && $scope.canton.code == 23)) {
+                    bounds._northEast.lng += 0.7;
+                    bounds._southWest.lng -= 0.7;
                 }
+                var zoom = map.getBoundsZoom(bounds);
                 $scope.center = [bounds.getCenter().lng, bounds.getCenter().lat, zoom];
                 Loader.decrement();
             });
