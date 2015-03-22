@@ -30,7 +30,10 @@ def getDptsToUpdate(t):
     for dpt in soup.Election.Departements.findAll("Departement"):
         mustUpdate = False
         codDpt3Car = dpt.CodDpt3Car.string
-        lastUpdateDateTime = "{0} {1}".format(dpt.DateDerPubDpt.string, dpt.HeureDerPubDpt.string)
+        try:
+            lastUpdateDateTime = "{0} {1}".format(dpt.DateDerPubDpt.string, dpt.HeureDerPubDpt.string)
+        except AttributeError:
+            lastUpdateDateTime = ""
 
         dpts.append((codDpt3Car, dpt.CodMinDpt.string))
 
