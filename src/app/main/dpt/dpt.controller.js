@@ -50,7 +50,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
         ns : "chartFE",
         linkedChartNs : "chartDpt"
     }
-    $scope.titleFE = "Résultats par parti - ";
+    $scope.titleFE = "Par parti, sur la base des résultats publiés - ";
 
     if ($rootScope.getT() == 1) {
         $scope.titleDpt += "1er tour";
