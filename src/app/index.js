@@ -75,6 +75,9 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
       computeT(toParams);
       Loader.decrement();
+      if ($window.ga != null) {
+        $window.ga('send', 'pageview', { page : $location.url() });
+      }
     })
 
     $rootScope.getT = function() {
