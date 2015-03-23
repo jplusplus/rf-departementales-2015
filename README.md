@@ -2,4 +2,6 @@
 
 ## Licence
 
+(c) Radio France
+
 Le code source de l'application est sous licence GPL v3. Vous pouvez lire le détail de la licence ici: https://www.gnu.org/licenses/gpl-3.0.fr.html
