@@ -113,7 +113,7 @@ angular.module('departementales2015')
                                             addToLegend(color, "Non disponible");
                                         }
                                     } else {
-                                        addToLegend("#fff", "N/A")
+                                        // addToLegend("#fff", "N/A")
                                     }
 
                                     layer.setStyle({
