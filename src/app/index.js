@@ -43,7 +43,7 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
       });
 
     $urlRouterProvider.otherwise('france');
-  }]).run(['$rootScope', '$window', 'Loader', '$state', function($rootScope, $window, Loader, $state) {
+  }]).run(['$rootScope', '$window', 'Loader', '$state', '$location', function($rootScope, $window, Loader, $state, $location) {
     var t = 1;
 
     var computeT = function(toParams) {
