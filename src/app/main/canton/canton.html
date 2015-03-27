@@ -10,6 +10,11 @@
   </div>
   <div class="container-fluid">
     <div class="row">
+      <div class='col-sm-12'>
+        <div class="main__canton__map-chart panel panel-default">
+          <div hbarchart x-data="dataCanH" class="chart"></div>
+        </div>
+      </div>
       <div class='col-sm-6'>
         <div class="main__canton__side-chart panel panel-default">
           <div class="panel-heading">
@@ -24,11 +29,6 @@
             <h3><span>Projection France</span><br />{{titleFE}}</h3>
           </div>
           <div barchart x-data="dataFE" x-config="configFE" class='chart'></div>
-        </div>
-      </div>
-      <div class='col-sm-12'>
-        <div class="main__canton__map-chart panel panel-default">
-          <div hbarchart x-data="dataCanH" class="chart"></div>
         </div>
       </div>
     </div>
