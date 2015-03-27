@@ -114,12 +114,23 @@ CantonCtrl.resolve = {
         }
     }],
 
-    mapData : ['$http', '$stateParams', '$rootScope', function($http, $stateParams, $rootScope) {
+    mapData : ['$http', '$stateParams', '$rootScope', '$q', function($http, $stateParams, $rootScope, $q) {
         var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
-        return $http.get('assets/json/results/T' + t + '/' + dpt + '/MAP.json').then(function(data) {
-            return data.data;
-        });
+        if (t === 1) {
+            return $http.get('assets/json/results/T' + t + '/' + dpt + '/MAP.json').then(function(data) {
+                return data.data;
+            });
+        } else {
+            return $q.all([
+                $http.get('assets/json/results/T2/' + dpt + '/MAP.json').then(function(data) {
+                    return data.data;
+                }),
+                $http.get('assets/json/results/T1/' + dpt + '/MAP.json').then(function(data) {
+                    return data.data;
+                })
+            ]);
+        }
     }]
 };
 
