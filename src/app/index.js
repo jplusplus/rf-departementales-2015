@@ -63,7 +63,7 @@ angular.module('departementales2015', ['ngAnimate', 'ngTouch', 'ngSanitize', 'ui
     $rootScope.$on('$stateChangeError', function(event, toState, toParams) {
       //console.debug("ERROR", arguments);
       Loader.decrement();
-      if (toState.name === 'home.canton' && toParams.ll != null && toParams.ll.length > 0) {
+      if (toState.name === 'home.canton') {
         var t = toParams.t || $rootScope.getT();
         if (t === 2) {
           toParams.t = 1;
