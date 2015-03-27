@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('departementales2015')
-    .directive('map', ['$state', '$stateParams', 'leafletData', function ($state, $stateParams, leafletData) {
+    .directive('map', ['$state', '$stateParams', 'leafletData', '$rootScope', function ($state, $stateParams, leafletData, $rootScope) {
         return {
             restrict : 'EA',
             scope : {
@@ -15,6 +15,14 @@ angular.module('departementales2015')
             compile : function() {
                 return {
                     pre : function($scope, $element, $attrs) {
+                        var t = $rootScope.getT();
+
+                        var backupdata = undefined;
+                        if (t === 2 && $scope.data instanceof Array) {
+                            backupdata = $scope.data[1];
+                            $scope.data = $scope.data[0];
+                        }
+
                         if ($attrs.id != null) {
                             $scope.mapid = 'm_' + $attrs.id;
                         }
@@ -112,8 +120,17 @@ angular.module('departementales2015')
                                             color = "#999";
                                             addToLegend(color, "Non disponible");
                                         }
-                                    } else {
-                                        // addToLegend("#fff", "N/A")
+                                    } else if (backupdata != null) {
+                                        if (_.has(backupdata, $scope.getCodeFromData(feature.properties))) {
+                                            var data = backupdata[$scope.getCodeFromData(feature.properties)];
+                                            if (data[1] > 50) {
+                                                layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
+                                            }
+
+                                            // Bind events
+                                            layer.on('click', $scope.click);
+                                            addToLegend("#fff", "Parti élu au 1er tour");
+                                        }
                                     }
 
                                     layer.setStyle({
