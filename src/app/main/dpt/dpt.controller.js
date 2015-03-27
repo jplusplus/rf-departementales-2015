@@ -1,7 +1,9 @@
 'use strict';
 
 var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData, Loader) {
+    var t = $rootScope.getT();
     Loader.increment();
+
     //
     $scope.dpt = {
         code : $stateParams.dpt,
@@ -52,7 +54,7 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
     }
     $scope.titleFE = "Par parti, sur la base des résultats publiés - ";
 
-    if ($rootScope.getT() == 1) {
+    if (t == 1) {
         $scope.titleDpt += "1er tour";
         $scope.titleFE += "1er tour";
     } else {
@@ -96,12 +98,23 @@ DptCtrl.resolve = {
         }
     }],
 
-    mapData : ['$http', '$stateParams', '$rootScope', function($http, $stateParams, $rootScope) {
+    mapData : ['$http', '$stateParams', '$rootScope', '$q', function($http, $stateParams, $rootScope, $q) {
         var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
-        return $http.get("assets/json/results/T" + t + "/" + dpt + "/MAP.json").then(function(data) {
-            return data.data;
-        });
+        if (t === 1) {
+            return $http.get("assets/json/results/T" + t + "/" + dpt + "/MAP.json").then(function(data) {
+                return data.data;
+            });
+        } else {
+            return $q.all([
+                $http.get("assets/json/results/T2/" + dpt + "/MAP.json").then(function(data) {
+                    return data.data;
+                }),
+                $http.get("assets/json/results/T1/" + dpt + "/MAP.json").then(function(data) {
+                    return data.data;
+                })
+            ]);
+        }
     }]
 };
 
