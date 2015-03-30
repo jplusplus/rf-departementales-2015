@@ -67,12 +67,12 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
             ns : "chartFE",
             linkedChartNs : "chartDpt"
         }
+    }
 
-        if ($stateParams.ll != null) {
-            $scope.mapMarker = {
-                lat : parseFloat($stateParams.ll.split(';')[1]),
-                lng : parseFloat($stateParams.ll.split(';')[0])
-            }
+    if ($stateParams.ll != null) {
+        $scope.mapMarker = {
+            lat : parseFloat($stateParams.ll.split(';')[1]),
+            lng : parseFloat($stateParams.ll.split(';')[0])
         }
     }
 };
@@ -98,7 +98,6 @@ CantonCtrl.resolve = {
             var deferred = $q.defer();
             $http.get('assets/json/results/T3/' + dpt + '/MAP.json').then(function(data) {
                 $http.get('assets/json/results/T' + data.data[canton][0] + '/' + dpt + '/' + canton + '.json').then(function(data) {
-                    console.debug(data);
                     deferred.resolve({ canton : data.data });
                 });
             })
