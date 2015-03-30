@@ -392,5 +392,5 @@ var computeT3Data =  function(data) {
             });
         }
     }
-    return ret;
+    return _.sortBy(ret, 'value').reverse();
 };
