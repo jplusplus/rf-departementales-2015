@@ -109,15 +109,10 @@ angular.module('departementales2015')
                                     if (_.has($scope.data, $scope.getCodeFromData(feature.properties))) {
                                         var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                         if (data != null) {
+                                            layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
 
-                                            if( $state.current.name === 'home.france') {
-                                              layer.bindLabel(feature.properties.nom);
-                                              color = "#fff";
-                                            } else {
-                                              layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
-                                              color = getColorFromNuance(data[0]);
-                                              addToLegend(color, getLabelFromNuance(data[0]));
-                                            }
+                                            color = getColorFromNuance(data[0]);
+                                            addToLegend(color, getLabelFromNuance(data[0]));
 
                                             // Bind events
                                             layer.on('click', $scope.click);
