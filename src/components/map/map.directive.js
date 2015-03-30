@@ -109,13 +109,33 @@ angular.module('departementales2015')
                                     if (_.has($scope.data, $scope.getCodeFromData(feature.properties))) {
                                         var data = $scope.data[$scope.getCodeFromData(feature.properties)];
                                         if (data != null) {
-                                            layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
+                                            if (data[0] instanceof Array) {
+                                                // We're in 'Resultats' tab
+                                                if (data.length > 1) {
+                                                    // Draw
+                                                    var labelstr = feature.properties.nom + "<br />Égalité : ";
+                                                    for (var i in data) if (data.hasOwnProperty(i)) {
+                                                        labelstr += (i != 0 ? ', ' : '') + getLabelFromNuance(data[i][0])
+                                                    }
+                                                    layer.bindLabel(labelstr + " (" + data[0][1] + " sièges)");
+                                                } else {
+                                                    data = data[0];
+                                                    layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + " sièges");
 
-                                            color = getColorFromNuance(data[0]);
-                                            addToLegend(color, getLabelFromNuance(data[0]));
+                                                    color = getColorFromNuance(data[0]);
+                                                    addToLegend(color, getLabelFromNuance(data[0]));
+                                                }
+                                                // Bind events
+                                                layer.on('click', $scope.click);
+                                            } else {
+                                                layer.bindLabel(feature.properties.nom + "<br />" + getLabelFromNuance(data[0]) + " : " + formatValue(data[1]) + "%");
 
-                                            // Bind events
-                                            layer.on('click', $scope.click);
+                                                color = getColorFromNuance(data[0]);
+                                                addToLegend(color, getLabelFromNuance(data[0]));
+
+                                                // Bind events
+                                                layer.on('click', $scope.click);
+                                            }
                                         } else {
                                             color = "#999";
                                             addToLegend(color, "Non disponible");

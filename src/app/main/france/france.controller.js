@@ -1,6 +1,9 @@
 'use strict';
 
 var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
+    //
+    $scope.t = $rootScope.getT();
+
     // Map
     $scope.mapData = mapData;
     $scope.geojson = geojson.departements;
@@ -13,25 +16,30 @@ var FranceCtrl = function($scope, $rootScope, chartData, geojson, mapData) {
     $scope.center976 = [-12.85, 45.16, 8];
 
     // Chart
-    $scope.data = computeChartData(chartData);
-    $scope.config = {
-        yLabel : "% de voix exprimées",
-        ns : "chart1"
-    };
-    $scope.chartTitle = "Par parti, sur la base des résultats publiés - ";
-    if ($rootScope.getT() == 1) {
-        $scope.chartTitle += "1er tour";
-    } else {
-        $scope.chartTitle += "2nd tour";
+    if (chartData != null) {
+        $scope.data = computeChartData(chartData);
+        $scope.config = {
+            yLabel : "% de voix exprimées",
+            ns : "chart1"
+        };
+        $scope.chartTitle = "Par parti, sur la base des résultats publiés - ";
+        if ($rootScope.getT() == 1) {
+            $scope.chartTitle += "1er tour";
+        } else {
+            $scope.chartTitle += "2nd tour";
+        }
     }
 };
 
 FranceCtrl.resolve = {
     chartData : ['$http', '$rootScope', function($http, $rootScope) {
         var t = $rootScope.getT();
-        return $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
-            return data.data;
-        });
+        if (t < 3) {
+            return $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
+                return data.data;
+            });
+        }
+        return undefined;
     }],
     geojson : ['$q', '$http', function($q, $http) {
         return $q.all({

@@ -33,7 +33,7 @@ angular.module('departementales2015')
 
     $scope.goToT = function(t) {
         if (t == 2 && !$scope.isT2) { return; }
-        if (t == 1 || t == 2) {
+        if (t == 1 || t == 2 || t == 3) {
             $scope.t = t;
             $state.go('.', { t : t });
         }
