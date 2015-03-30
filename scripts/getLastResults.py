@@ -51,6 +51,8 @@ if __name__ == "__main__":
                 if nuance.CodNuaBin.string not in sieges:
                     sieges[nuance.CodNuaBin.string] = 0
                 sieges[nuance.CodNuaBin.string] += int(nuance.NbElus.string)
+        with open(os.path.join(OUT_DIR, '{0}.json'.format(dpt[0])), 'w') as f:
+            f.write(json.dumps(sieges))
         _max = sorted([v for k, v in sieges.items()], key=lambda v: v, reverse=True)[0]
         femap_data[dpt[1]] = [(k, v) for k, v in sieges.items() if v == _max]
     with open(os.path.join(OUT_DIR, 'FEMAP.json'), 'w') as f:

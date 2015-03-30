@@ -379,3 +379,18 @@ var formatLastUpdate = function(datetime) {
     datetime[0] = [datetime[0][1], datetime[0][0], datetime[0][2]].join('/')
     return "Dernière mise à jour le " + datetime[0] + " à " + datetime[1];
 }
+
+var computeT3Data =  function(data) {
+    var ret = [];
+    for (var i in data) if (data.hasOwnProperty(i)) {
+        if (data[i] > 0) {
+            ret.push({
+                value : data[i],
+                color : i,
+                label : getLabelFromNuance(i),
+                tooltip : getLabelFromNuance(i) + ' : ' + data[i] + ' sièges'
+            });
+        }
+    }
+    return ret;
+};

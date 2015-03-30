@@ -2,7 +2,7 @@
   <ol class="breadcrumb">
       <li><a ui-sref="home.france">France</a></li>
       <li><a ui-sref="home.dpt({dpt:dpt.code})">{{dpt.name}}</a></li>
-      <span class="date pull-right">{{ lastUpdate }}</span>
+      <span ng-if="t!==3" class="date pull-right">{{ lastUpdate }}</span>
   </ol>
   <div class="main__dpt__map">
     <map id="mapdpt" x-geo="geojson" x-center-lon-lat="center" x-data="mapData"></map>
@@ -17,7 +17,7 @@
           <div barchart x-data="dataDpt" x-config="configDpt" class='chart'></div>
         </div>
       </div>
-      <div class='col-sm-6'>
+      <div class='col-sm-6' ng-if="t !== 3">
         <div class="main__dpt__side-chart panel panel-default">
           <div class="panel-heading">
             <h3><span>Projection France</span><br />{{titleFE}}</h3>

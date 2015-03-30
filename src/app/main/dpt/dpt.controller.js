@@ -2,6 +2,7 @@
 
 var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData, Loader) {
     var t = $rootScope.getT();
+    $scope.t = t;
     Loader.increment();
 
     //
@@ -9,7 +10,9 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
         code : $stateParams.dpt,
         name : getDptNameFromDptCode($stateParams.dpt)
     }
-    $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
+    if (t < 3) {
+        $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
+    }
 
     // Map
     $scope.mapData = mapData;
@@ -38,28 +41,37 @@ var DptCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData,
     });
 
     // Charts
-    $scope.dataDpt = computeChartData(chartData.dpt.results);
-    $scope.configDpt = {
-        yLabel : "% de voix exprimées",
-        ns : "chartDpt",
-        linkedChartNs : "chartFE"
-    };
-    $scope.titleDpt = "Résultats par parti - ";
+    if (t < 3) {
+        $scope.dataDpt = computeChartData(chartData.dpt.results);
+        $scope.configDpt = {
+            yLabel : "% de voix exprimées",
+            ns : "chartDpt",
+            linkedChartNs : "chartFE"
+        };
+        $scope.titleDpt = "Résultats par parti - ";
 
-    $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
-    $scope.configFE = {
-        yLabel : "% de voix exprimées",
-        ns : "chartFE",
-        linkedChartNs : "chartDpt"
-    }
-    $scope.titleFE = "Par parti, sur la base des résultats publiés - ";
+        $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataDpt);
+        $scope.configFE = {
+            yLabel : "% de voix exprimées",
+            ns : "chartFE",
+            linkedChartNs : "chartDpt"
+        }
+        $scope.titleFE = "Par parti, sur la base des résultats publiés - ";
 
-    if (t == 1) {
-        $scope.titleDpt += "1er tour";
-        $scope.titleFE += "1er tour";
+        if (t == 1) {
+            $scope.titleDpt += "1er tour";
+            $scope.titleFE += "1er tour";
+        } else {
+            $scope.titleDpt += "2nd tour";
+            $scope.titleFE += "2nd tour";
+        }
     } else {
-        $scope.titleDpt += "2nd tour";
-        $scope.titleFE += "2nd tour";
+        $scope.dataDpt = computeT3Data(chartData.dpt);
+        $scope.configDpt = {
+            yLabel : "Nombre de sièges",
+            ns : "chartDpt"
+        };
+        $scope.titleDpt = "Nombre de sièges obtenus par parti";
     }
 };
 
@@ -71,9 +83,9 @@ DptCtrl.resolve = {
             dpt : $http.get("assets/json/results/T" + t + "/" + dpt + ".json").then(function(data) {
                 return data.data;
             }),
-            FE : $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
+            FE : t < 3 ? $http.get("assets/json/results/T" + t + "/FE.json").then(function(data) {
                 return data.data;
-            })
+            }) : undefined
         });
     }],
 
@@ -105,7 +117,7 @@ DptCtrl.resolve = {
             return $http.get("assets/json/results/T" + t + "/" + dpt + "/MAP.json").then(function(data) {
                 return data.data;
             });
-        } else {
+        } else if (t === 2) {
             return $q.all([
                 $http.get("assets/json/results/T2/" + dpt + "/MAP.json").then(function(data) {
                     return data.data;
