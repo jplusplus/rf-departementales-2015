@@ -3,6 +3,7 @@
 var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartData, geojson, mapData, Loader) {
     Loader.increment();
     //
+    $scope.t = $rootScope.getT();
     $scope.dpt = {
         code : $stateParams.dpt,
         name : getDptNameFromDptCode($stateParams.dpt)
@@ -11,7 +12,9 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
         code : $stateParams.canton,
         name : ""
     }
-    $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
+    if ($scope.t < 3) {
+        $scope.lastUpdate = formatLastUpdate(chartData.dpt.lastUpdateDateTime);
+    }
 
 
     // Map
@@ -48,25 +51,28 @@ var CantonCtrl = function($scope, $rootScope, $stateParams, leafletData, chartDa
 
     // Charts
     $scope.dataCan = computeChartData(chartData.canton);
-    $scope.configCan = {
-        yLabel : "% de voix exprimées",
-        ns : "chartDpt",
-        linkedChartNs : "chartFE"
-    };
-
     $scope.dataCanH = _.remove(_.take(_.cloneDeep($scope.dataCan), 5), function(d) { return d.value > 0; });
+    $scope.dataCanH = _.remove($scope.dataCanH, function(d) { return d.nombre != null; })
 
-    $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
-    $scope.configFE = {
-        yLabel : "% de voix exprimées",
-        ns : "chartFE",
-        linkedChartNs : "chartDpt"
-    }
+    if ($scope.t < 3) {
+        $scope.configCan = {
+            yLabel : "% de voix exprimées",
+            ns : "chartDpt",
+            linkedChartNs : "chartFE"
+        };
 
-    if ($stateParams.ll != null) {
-        $scope.mapMarker = {
-            lat : parseFloat($stateParams.ll.split(';')[1]),
-            lng : parseFloat($stateParams.ll.split(';')[0])
+        $scope.dataFE = computeChartDataAs(chartData.FE, $scope.dataCan);
+        $scope.configFE = {
+            yLabel : "% de voix exprimées",
+            ns : "chartFE",
+            linkedChartNs : "chartDpt"
+        }
+
+        if ($stateParams.ll != null) {
+            $scope.mapMarker = {
+                lat : parseFloat($stateParams.ll.split(';')[1]),
+                lng : parseFloat($stateParams.ll.split(';')[0])
+            }
         }
     }
 };
@@ -76,17 +82,28 @@ CantonCtrl.resolve = {
         var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
         var canton = $stateParams.canton.length > 1 ? $stateParams.canton : '0' + $stateParams.canton;
-        return $q.all({
-            canton : $http.get('assets/json/results/T' + t + '/' + dpt + '/' + canton + ".json").then(function(data) {
-                return data.data;
-            }),
-            FE : $http.get('assets/json/results/T' + t + '/FE.json').then(function(data) {
-                return data.data;
-            }),
-            dpt : $http.get('assets/json/results/T' + t + '/' + dpt + ".json").then(function(data) {
-                return data.data;
+        if (t < 3) {
+            return $q.all({
+                canton : $http.get('assets/json/results/T' + t + '/' + dpt + '/' + canton + ".json").then(function(data) {
+                    return data.data;
+                }),
+                FE : $http.get('assets/json/results/T' + t + '/FE.json').then(function(data) {
+                    return data.data;
+                }),
+                dpt : $http.get('assets/json/results/T' + t + '/' + dpt + ".json").then(function(data) {
+                    return data.data;
+                })
+            });
+        } else {
+            var deferred = $q.defer();
+            $http.get('assets/json/results/T3/' + dpt + '/MAP.json').then(function(data) {
+                $http.get('assets/json/results/T' + data.data[canton][0] + '/' + dpt + '/' + canton + '.json').then(function(data) {
+                    console.debug(data);
+                    deferred.resolve({ canton : data.data });
+                });
             })
-        });
+            return deferred.promise;
+        }
     }],
 
     geojson : ['$http', '$stateParams', function($http, $stateParams) {
@@ -117,7 +134,7 @@ CantonCtrl.resolve = {
     mapData : ['$http', '$stateParams', '$rootScope', '$q', function($http, $stateParams, $rootScope, $q) {
         var t = $rootScope.getT();
         var dpt = $stateParams.dpt.length > 2 ? $stateParams.dpt : '0' + $stateParams.dpt;
-        if (t === 1) {
+        if (t === 1 || t === 3) {
             return $http.get('assets/json/results/T' + t + '/' + dpt + '/MAP.json').then(function(data) {
                 return data.data;
             });
