@@ -24,6 +24,26 @@ def get_all_dpts():
 
     return ret
 
+def getCanList(dpt):
+    ret = []
+
+    r = requests.get('http://elections.interieur.gouv.fr/telechargements/DP2015/resultatsT1/{0}/T1{0}.xml'.format(dpt))
+    soup = BeautifulSoup(r.text, "xml")
+
+    for can in soup.Election.Departement.Cantons.findAll('Canton'):
+        ret.append(can.CodCan.string)
+
+    return ret
+
+def getCanWinner(dpt, can):
+    r = requests.get(BASE_URL + '{0}/{0}{1}.xml'.format(dpt, can))
+    soup = BeautifulSoup(r.text, "xml")
+    winner = None
+    for tour in soup.Election.Tours.find_all('Tour'):
+        for binome in tour.Resultats.Binomes.find_all('Binome'):
+            if binome.Elu.string == "oui":
+                return (tour.NumTour.string, binome.CodNuaBin.string)
+
 if __name__ == "__main__":
     argv = sys.argv
 
@@ -55,5 +75,11 @@ if __name__ == "__main__":
             f.write(json.dumps(sieges))
         _max = sorted([v for k, v in sieges.items()], key=lambda v: v, reverse=True)[0]
         femap_data[dpt[1]] = [(k, v) for k, v in sieges.items() if v == _max]
+        canwinners = dict()
+        for can in getCanList(dpt[0]):
+            canwinners[can] = getCanWinner(dpt[0], can)
+        mkdir(os.path.join(OUT_DIR, dpt[0]))
+        with open(os.path.join(OUT_DIR, dpt[0], 'MAP.json'), 'w') as f:
+            f.write(json.dumps(canwinners))
     with open(os.path.join(OUT_DIR, 'FEMAP.json'), 'w') as f:
         f.write(json.dumps(femap_data))
